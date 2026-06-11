@@ -120,3 +120,58 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* === IBGE GOTHIC — Custom Design Tokens === */
+:root {
+  --font-display: var(--font-cinzel), 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Gothic Shadows */
+.shadow-gothic-card {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+.shadow-gothic-card-hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(127, 29, 29, 0.15);
+}
+.shadow-gothic-crimson-glow {
+  box-shadow: 0 0 32px rgba(127, 29, 29, 0.4);
+}
+.shadow-gothic-purple-glow {
+  box-shadow: 0 0 32px rgba(88, 28, 135, 0.4);
+}
+
+/* Gothic Animations */
+@keyframes pulseCrimson {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(127, 29, 29, 0); }
+  50% { box-shadow: 0 0 0 8px rgba(127, 29, 29, 0.3); }
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-pulse-crimson {
+  animation: pulseCrimson 2s ease-in-out infinite;
+}
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Font Display Helper */
+.font-display-gothic {
+  font-family: var(--font-display);
+}

@@ -23,3 +23,25 @@ Stage Summary:
 - All data sourced from the 4 IBGE xlsx files (Censo 2022)
 - Lint passes cleanly
 - Dev server returning 200 OK
+---
+Task ID: 1
+Agent: Main Agent
+Task: Reavaliar arquivo .md (blueprint) vs site atual e corrigir divergências
+
+Work Log:
+- Leitura completa do blueprint ibge_portal_blueprint.md (3 pilares: Dashboard, Quiz, Admin)
+- Leitura completa do page.tsx e ibge-data.ts
+- Análise de conformidade: site implementa apenas Pilar 1 (Dashboard)
+- Pilares 2 (Quiz) e 3 (Admin) + Autenticação não implementados (requerem Supabase)
+- Adicionada fonte Cinzel (Google Fonts) via next/font/google no layout.tsx
+- Adicionados tokens CSS góticos: sombras (shadow-gothic-card, crimson-glow, purple-glow), animações (pulse-crimson, glow-pulse, fade-in-up, scale-in), classe font-display-gothic
+- Adicionadas tabelas de dados nas 3 abas que não tinham: Ocupação, Transporte, Local de Trabalho
+- Aplicada classe font-display-gothic em todos os CardTitles, header h1 e hero h2
+- Build verificado com sucesso (npx next build)
+
+Stage Summary:
+- Conformidade visual do Pilar 1 aumentada significativamente
+- Fonte gótica Cinzel agora carrega e aplica nos títulos
+- Todas as 4 abas agora possuem tabela de dados completa
+- Animações e sombras do design system gótico disponíveis via CSS
+- Pilares 2 e 3 continuam ausentes (dependem de Supabase para auth + DB)

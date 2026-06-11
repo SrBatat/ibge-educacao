@@ -235,7 +235,7 @@ function EducacaoTab() {
           <CardHeader className="pb-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <CardTitle className="text-white text-base">Frequência Escolar por Idade e Sexo</CardTitle>
+                <CardTitle className="text-white text-base font-display-gothic">Frequência Escolar por Idade e Sexo</CardTitle>
                 <CardDescription className="text-zinc-500 text-xs">Taxa bruta de frequência escolar — {selectedRegiao} — 2022</CardDescription>
               </div>
               <Select value={selectedRegiao} onValueChange={setSelectedRegiao}>
@@ -268,7 +268,7 @@ function EducacaoTab() {
         {/* Gender Gap Chart */}
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Gap de Gênero</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Gap de Gênero</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Diferença Mulheres - Homens (p.p.)</CardDescription>
           </CardHeader>
           <CardContent>
@@ -294,7 +294,7 @@ function EducacaoTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Perfil Regional da Educação</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Perfil Regional da Educação</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Comparação entre Grandes Regiões — Radar</CardDescription>
           </CardHeader>
           <CardContent>
@@ -315,7 +315,7 @@ function EducacaoTab() {
 
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Comparação por Nível de Ensino</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Comparação por Nível de Ensino</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Grandes Regiões — Taxa de frequência escolar (%)</CardDescription>
           </CardHeader>
           <CardContent>
@@ -341,7 +341,7 @@ function EducacaoTab() {
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <CardTitle className="text-white text-base">Detalhamento por Estado</CardTitle>
+              <CardTitle className="text-white text-base font-display-gothic">Detalhamento por Estado</CardTitle>
               <CardDescription className="text-zinc-500 text-xs">Frequência escolar por UF na região selecionada</CardDescription>
             </div>
             <Select value={selectedRegiao} onValueChange={setSelectedRegiao}>
@@ -382,7 +382,7 @@ function EducacaoTab() {
       {/* Data Table */}
       <Card className="bg-zinc-950 border-zinc-800">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base">Tabela Completa — Frequência Escolar</CardTitle>
+          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Frequência Escolar</CardTitle>
           <CardDescription className="text-zinc-500 text-xs">Taxa bruta por grupo de idade e sexo — Censo 2022</CardDescription>
         </CardHeader>
         <CardContent>
@@ -455,7 +455,7 @@ function OcupacaoTab() {
         {/* Main bar chart */}
         <Card className="lg:col-span-2 bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Situação de Ocupação por Região</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Situação de Ocupação por Região</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Pessoas de 14+ anos — Censo 2022</CardDescription>
           </CardHeader>
           <CardContent>
@@ -477,7 +477,7 @@ function OcupacaoTab() {
         {/* Pie chart */}
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Ocupação — Brasil</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Ocupação — Brasil</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Distribuição percentual</CardDescription>
           </CardHeader>
           <CardContent>
@@ -506,7 +506,7 @@ function OcupacaoTab() {
       {/* Education & Occupation insight */}
       <Card className="bg-zinc-950 border-zinc-800">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base">Educação e Ocupação — Análise Cruzada</CardTitle>
+          <CardTitle className="text-white text-base font-display-gothic">Educação e Ocupação — Análise Cruzada</CardTitle>
           <CardDescription className="text-zinc-500 text-xs">Relação entre frequência escolar e ocupação por região</CardDescription>
         </CardHeader>
         <CardContent>
@@ -553,6 +553,46 @@ function OcupacaoTab() {
                 </motion.div>
               );
             })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Data Table */}
+      <Card className="bg-zinc-950 border-zinc-800">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Situação de Ocupação</CardTitle>
+          <CardDescription className="text-zinc-500 text-xs">Pessoas de 14+ anos por região e sexo — Censo 2022</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-zinc-800">
+                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                  <th className="text-center py-2 px-1 text-emerald-400 font-medium" colSpan={2}>Total</th>
+                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={2}>Homens</th>
+                  <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={2}>Mulheres</th>
+                </tr>
+                <tr className="border-b border-zinc-800">
+                  {['Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas'].map((h, i) => (
+                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {situacaoOcupacao.map((row, ri) => (
+                  <tr key={ri} className="border-b border-zinc-900 hover:bg-zinc-900/30">
+                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.ocupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.naoOcupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.ocupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.naoOcupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.ocupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.naoOcupadas.toFixed(1)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </CardContent>
       </Card>
@@ -605,7 +645,7 @@ function TransporteTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Meio de Transporte por Cor/Raça — Brasil</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Meio de Transporte por Cor/Raça — Brasil</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Mulheres de 10+ anos ocupadas — Censo 2022</CardDescription>
           </CardHeader>
           <CardContent>
@@ -626,7 +666,7 @@ function TransporteTab() {
 
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Gap Racial no Transporte — Brasil</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Gap Racial no Transporte — Brasil</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Diferença Preta/Parda - Branca (p.p.)</CardDescription>
           </CardHeader>
           <CardContent>
@@ -651,7 +691,7 @@ function TransporteTab() {
       {/* Regional comparison */}
       <Card className="bg-zinc-950 border-zinc-800">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base">Desigualdade Regional no Acesso a Automóvel</CardTitle>
+          <CardTitle className="text-white text-base font-display-gothic">Desigualdade Regional no Acesso a Automóvel</CardTitle>
           <CardDescription className="text-zinc-500 text-xs">% de mulheres ocupadas que usam automóvel por cor/raça e região</CardDescription>
         </CardHeader>
         <CardContent>
@@ -667,6 +707,49 @@ function TransporteTab() {
               <Bar dataKey="indigena.automovel" name="Indígena" fill={COLORS.amber} maxBarSize={25} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Data Table */}
+      <Card className="bg-zinc-950 border-zinc-800">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Meio de Transporte</CardTitle>
+          <CardDescription className="text-zinc-500 text-xs">Mulheres de 10+ anos ocupadas por cor/raça e região — Censo 2022</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-zinc-800">
+                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={6}>Branca</th>
+                  <th className="text-center py-2 px-1 text-red-400 font-medium" colSpan={6}>Preta/Parda</th>
+                  <th className="text-center py-2 px-1 text-amber-400 font-medium" colSpan={6}>Indígena</th>
+                </tr>
+                <tr className="border-b border-zinc-800">
+                  {transportLabels.concat(transportLabels).concat(transportLabels).map((l, i) => (
+                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{l}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {meioTransporte.map((row, ri) => (
+                  <tr key={ri} className="border-b border-zinc-900 hover:bg-zinc-900/30">
+                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
+                    {transportKeys.map(key => (
+                      <td key={`b-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.branca[key].toFixed(1)}</td>
+                    ))}
+                    {transportKeys.map(key => (
+                      <td key={`p-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.pretaParda[key].toFixed(1)}</td>
+                    ))}
+                    {transportKeys.map(key => (
+                      <td key={`i-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.indigena[key].toFixed(1)}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </CardContent>
       </Card>
     </div>
@@ -703,7 +786,7 @@ function LocalTrabalhoTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Local de Trabalho por Região</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Local de Trabalho por Região</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Pessoas de 10+ anos ocupadas — Censo 2022</CardDescription>
           </CardHeader>
           <CardContent>
@@ -724,7 +807,7 @@ function LocalTrabalhoTab() {
 
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base">Home Office por Gênero e Região</CardTitle>
+            <CardTitle className="text-white text-base font-display-gothic">Home Office por Gênero e Região</CardTitle>
             <CardDescription className="text-zinc-500 text-xs">Trabalho no domicílio de residência (%)</CardDescription>
           </CardHeader>
           <CardContent>
@@ -742,6 +825,49 @@ function LocalTrabalhoTab() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Data Table */}
+      <Card className="bg-zinc-950 border-zinc-800">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Local de Trabalho</CardTitle>
+          <CardDescription className="text-zinc-500 text-xs">Pessoas de 10+ anos ocupadas por região e sexo — Censo 2022</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-zinc-800">
+                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                  <th className="text-center py-2 px-1 text-purple-400 font-medium" colSpan={3}>Total</th>
+                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={3}>Homens</th>
+                  <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={3}>Mulheres</th>
+                </tr>
+                <tr className="border-b border-zinc-800">
+                  {['No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município'].map((h, i) => (
+                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {localTrabalho.map((row, ri) => (
+                  <tr key={ri} className="border-b border-zinc-900 hover:bg-zinc-900/30">
+                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.noDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.foraDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.outroMunicipio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.noDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.foraDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.outroMunicipio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.noDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.foraDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.outroMunicipio.toFixed(1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -761,7 +887,7 @@ export default function Home() {
                 <span className="text-white font-bold text-xs">IBGE</span>
               </div>
               <div>
-                <h1 className="text-sm font-semibold text-white tracking-wide">Portal IBGE</h1>
+                <h1 className="text-sm font-semibold text-white tracking-wide font-display-gothic">Portal IBGE</h1>
                 <p className="text-[10px] text-zinc-500 -mt-0.5">Dados do Censo 2022 — Educação & Sociedade</p>
               </div>
             </div>
@@ -790,7 +916,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight font-display-gothic">
               Educação & Sociedade
             </h2>
             <p className="text-zinc-400 mt-2 max-w-2xl text-sm leading-relaxed">

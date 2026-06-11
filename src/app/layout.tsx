@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Cinzel } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -13,13 +13,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
   title: "Portal IBGE — Educação & Sociedade",
   description: "Análise interativa dos dados do Censo Demográfico 2022 do IBGE, com foco na frequência escolar, situação de ocupação, meio de transporte e local de trabalho.",
   keywords: ["IBGE", "Censo 2022", "Educação", "Frequência Escolar", "Ocupação", "Transporte", "SIDRA"],
   authors: [{ name: "Portal IBGE" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.ico",
   },
   openGraph: {
     title: "Portal IBGE — Educação & Sociedade",
@@ -36,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />
