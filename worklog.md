@@ -45,3 +45,39 @@ Stage Summary:
 - Todas as 4 abas agora possuem tabela de dados completa
 - Animações e sombras do design system gótico disponíveis via CSS
 - Pilares 2 e 3 continuam ausentes (dependem de Supabase para auth + DB)
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Implementar Pilares 2 (Quiz) e 3 (Admin) + Autenticação com Supabase
+
+Work Log:
+- Instalado @supabase/supabase-js e @supabase/ssr
+- Criado .env.local com credenciais do usuário
+- Criado src/lib/supabase.ts (client com persistSession)
+- Criado src/contexts/AuthContext.tsx (signIn, signUp, signOut, isAdmin, loadProfile)
+- Criado src/app/login/page.tsx (tela login gótica com Cinzel)
+- Criado src/app/register/page.tsx (tela cadastro)
+- Criado src/middleware.ts (proteção de rotas + admin check + ban check)
+- Criado src/app/quiz/page.tsx (lobby com leaderboard)
+- Criado src/app/quiz/play/page.tsx (quiz com timer, scoring, feedback)
+- Criado src/app/quiz/result/page.tsx (resultado + leaderboard top 10)
+- Criado src/app/admin/layout.tsx (sidebar com navegação)
+- Criado src/app/admin/page.tsx (dashboard com KPIs)
+- Criado src/app/admin/users/page.tsx (CRUD usuários)
+- Criado src/app/admin/ibge/page.tsx (CRUD dados IBGE)
+- Criado src/app/admin/questions/page.tsx (CRUD perguntas quiz)
+- Criado src/app/admin/logs/page.tsx (visualizar logs com filtros)
+- Criado src/app/forbidden/page.tsx (página 403)
+- Atualizado layout.tsx com AuthProvider
+- Atualizado page.tsx header com auth (username, quiz link, admin link, logout)
+- Criado download/supabase_schema.sql (schema + seed completo)
+- Criado download/GUIA_DEPLOY.md (instruções de deploy)
+- Build verificada: 14 rotas, 0 erros
+
+Stage Summary:
+- Todos os 3 pilares implementados: Dashboard + Quiz + Admin
+- Autenticação completa com Supabase Auth
+- Proteção de rotas via middleware
+- SQL schema com 20 perguntas de quiz seed
+- Guia de deploy com 3 passos simples

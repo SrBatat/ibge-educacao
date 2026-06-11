@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen, GraduationCap, Users, TrendingUp, MapPin, Bus,
   ChevronDown, Info, BarChart3, PieChart, Activity, Globe,
-  ArrowUpRight, ArrowDownRight, Minus, Search, Filter
+  ArrowUpRight, ArrowDownRight, Minus, Search, Filter, LogOut
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -20,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   frequenciaEscolar, situacaoOcupacao, localTrabalho, meioTransporte,
   regioes, estadosPorRegiao, ageGroups, ageGroupKeys, transportLabels, transportKeys,
@@ -875,6 +878,8 @@ function LocalTrabalhoTab() {
 // --- Main Page ---
 export default function Home() {
   const [activeTab, setActiveTab] = useState('educacao');
+  const { profile, signOut, isAdmin } = useAuth();
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
@@ -892,14 +897,43 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-[10px] border-zinc-700 text-zinc-400 gap-1">
-                <Activity className="w-2.5 h-2.5" />
-                Censo 2022
-              </Badge>
-              <Badge variant="outline" className="text-[10px] border-emerald-900 text-emerald-400 gap-1">
-                <Globe className="w-2.5 h-2.5" />
-                SIDRA
-              </Badge>
+              {profile ? (
+                <>
+                  <Badge variant="outline" className="text-[10px] border-zinc-700 text-zinc-300 gap-1">
+                    {profile.username}
+                  </Badge>
+                  <Link href="/quiz">
+                    <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white text-xs h-7 px-2">
+                      Quiz
+                    </Button>
+                  </Link>
+                  {isAdmin() && (
+                    <Link href="/admin">
+                      <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white text-xs h-7 px-2">
+                        Admin
+                      </Button>
+                    </Link>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-zinc-400 hover:text-red-400 text-xs h-7 px-2 gap-1"
+                    onClick={async () => {
+                      await signOut();
+                      router.push('/login');
+                    }}
+                  >
+                    <LogOut className="w-3 h-3" />
+                    Sair
+                  </Button>
+                </>
+              ) : (
+                <Link href="/login">
+                  <Button variant="outline" size="sm" className="text-zinc-400 hover:text-white text-xs h-7 border-zinc-700">
+                    Entrar
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
