@@ -35,9 +35,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="border-t border-gothic-700/50 bg-gothic-950 mt-auto">
+    <footer className="border-t border-border bg-background mt-auto">
       {/* Decorative gradient line */}
-      <div className="h-px bg-gradient-to-r from-transparent via-crimson-700/40 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* Top section: Logo + Description */}
@@ -45,31 +45,31 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:max-w-xs shrink-0">
             <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-8 h-8 rounded-md bg-crimson-900/40 border border-crimson-700/30 flex items-center justify-center">
-                <span className="font-display-gothic text-xs font-bold text-crimson-300 tracking-widest">I</span>
+              <div className="w-8 h-8 rounded-md bg-primary/20 border border-primary/30 flex items-center justify-center">
+                <span className="font-display-gothic text-xs font-bold text-primary tracking-widest">I</span>
               </div>
               <div>
-                <span className="font-display-gothic text-sm font-semibold text-white tracking-widest">IBGE</span>
-                <span className="text-[10px] text-gothic-500 tracking-[0.2em] uppercase ml-2 font-display-gothic">Portal</span>
+                <span className="font-display-gothic text-sm font-semibold text-foreground tracking-widest">IBGE</span>
+                <span className="text-[10px] text-muted-foreground tracking-[0.2em] uppercase ml-2 font-display-gothic">Portal</span>
               </div>
             </div>
-            <p className="text-xs text-gothic-500 leading-relaxed">
+            <p className="text-xs text-muted-foreground leading-relaxed">
               Analise interativa dos dados do Censo Demografico 2022 do IBGE, com foco na educacao,
               ocupacao, transporte e local de trabalho da populacao brasileira.
             </p>
             {/* Stat badges */}
             <div className="flex flex-wrap gap-2 mt-4">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gothic-900 border border-gothic-700/30">
-                <Database size={11} className="text-crimson-300" />
-                <span className="text-[10px] text-gothic-400">4 Tabelas</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-card border border-border">
+                <Database size={11} className="text-primary" />
+                <span className="text-[10px] text-muted-foreground">4 Tabelas</span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gothic-900 border border-gothic-700/30">
-                <BarChart3 size={11} className="text-imperial-300" />
-                <span className="text-[10px] text-gothic-400">5 Regioes</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-card border border-border">
+                <BarChart3 size={11} className="text-chart-2" />
+                <span className="text-[10px] text-muted-foreground">5 Regioes</span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gothic-900 border border-gothic-700/30">
-                <Globe size={11} className="text-emerald-400" />
-                <span className="text-[10px] text-gothic-400">27 UFs</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-card border border-border">
+                <Globe size={11} className="text-emerald-500" />
+                <span className="text-[10px] text-muted-foreground">27 UFs</span>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function Footer() {
           <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8">
             {sections.map((section) => (
               <div key={section.title}>
-                <h4 className="text-[10px] text-gothic-400 uppercase tracking-[0.2em] font-semibold mb-3 font-display-gothic">
+                <h4 className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] font-semibold mb-3 font-display-gothic">
                   {section.title}
                 </h4>
                 <ul className="space-y-2">
@@ -88,7 +88,7 @@ export default function Footer() {
                         href={item.href}
                         target={item.href.startsWith('http') ? '_blank' : undefined}
                         rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className="text-xs text-gothic-500 hover:text-white transition-colors duration-200"
+                        className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-200"
                       >
                         {item.label}
                       </a>
@@ -101,14 +101,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 pt-4 border-t border-gothic-800/50 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-[10px] text-gothic-600">
-            <BookOpen size={10} className="text-gothic-700" />
+        <div className="mt-8 pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <BookOpen size={10} className="text-muted-foreground/50" />
             <span>Fonte: IBGE/SIDRA — Censo Demografico 2022</span>
           </div>
-          <div className="flex items-center gap-3 text-[10px] text-gothic-600">
+          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
             <span>Portal Educacional</span>
-            <span className="text-gothic-800">|</span>
+            <span className="text-border">|</span>
             <span>{currentYear}</span>
           </div>
         </div>

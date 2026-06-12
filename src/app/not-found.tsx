@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -19,14 +19,14 @@ export default function NotFound() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.5, ease: 'easeOut' }}
         >
-          <Ghost className="w-20 h-20 text-zinc-600" />
+          <Ghost className="w-20 h-20 text-muted-foreground" />
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className="text-8xl font-bold text-zinc-700 font-display-gothic"
+          className="text-8xl font-bold text-muted-foreground/50 font-display-gothic"
         >
           404
         </motion.h1>
@@ -35,7 +35,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.4 }}
-          className="text-2xl font-semibold text-white font-display-gothic"
+          className="text-2xl font-semibold text-foreground font-display-gothic"
         >
           Página Não Encontrada
         </motion.h2>
@@ -44,7 +44,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className="text-zinc-500 max-w-md"
+          className="text-muted-foreground max-w-md"
         >
           Esta página se perdeu nas sombras. O dado que você busca pode não existir ou foi movido.
         </motion.p>
@@ -56,7 +56,7 @@ export default function NotFound() {
           className="mt-4"
         >
           <Link href="/">
-            <Button className="bg-red-900 hover:bg-red-800 text-white font-display-gothic tracking-wider hover:shadow-gothic-crimson-glow transition-all duration-300">
+            <Button className="bg-primary hover:bg-primary/90 text-foreground font-display-gothic tracking-wider hover:shadow-gothic-crimson-glow transition-all duration-300">
               <Home className="w-4 h-4 mr-2" />
               Voltar ao Dashboard
             </Button>

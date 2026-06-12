@@ -38,19 +38,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen flex bg-zinc-950">
+    <div className="min-h-screen flex bg-background">
       {/* Sidebar */}
-      <aside className="w-60 fixed top-0 left-0 h-screen bg-zinc-900 border-r border-zinc-800 flex flex-col z-50">
+      <aside className="w-60 fixed top-0 left-0 h-screen bg-card border-r border-border flex flex-col z-50">
         {/* Logo Section */}
-        <div className="p-5 border-b border-zinc-800">
-          <p className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Admin</p>
-          <h1 className="text-lg font-display-gothic text-white">IBGE Portal</h1>
+        <div className="p-5 border-b border-border">
+          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Admin</p>
+          <h1 className="text-lg font-display-gothic text-foreground">IBGE Portal</h1>
           <div className="flex items-center gap-2 mt-3">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
             </span>
-            <span className="text-xs text-zinc-400 truncate">
+            <span className="text-xs text-muted-foreground truncate">
               {profile?.username || 'Carregando...'}
             </span>
           </div>
@@ -68,8 +68,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   whileTap={{ scale: 0.98 }}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     active
-                      ? 'bg-red-950/30 text-red-300 border-l-2 border-red-800'
-                      : 'text-zinc-500 hover:text-white hover:bg-zinc-800/50'
+                      ? 'bg-primary/15 text-foreground border-l-2 border-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -81,12 +81,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Logout */}
-        <div className="p-3 border-t border-zinc-800">
+        <div className="p-3 border-t border-border">
           <motion.button
             whileHover={{ x: 2 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-500 hover:text-red-400 hover:bg-zinc-800/50 transition-colors w-full"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-secondary/50 transition-colors w-full"
           >
             <LogOut className="h-4 w-4" />
             Sair

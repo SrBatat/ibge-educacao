@@ -73,8 +73,8 @@ export default function AdminDashboard() {
           label: 'Última Atividade',
           value: lastActivity,
           icon: Clock,
-          iconBg: 'bg-zinc-800',
-          iconColor: 'text-zinc-400',
+          iconBg: 'bg-secondary',
+          iconColor: 'text-muted-foreground',
         },
       ]);
 
@@ -94,8 +94,8 @@ export default function AdminDashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <h1 className="text-2xl font-display-gothic text-white">Dashboard</h1>
-        <p className="text-sm text-zinc-500 mt-1">Visão geral do sistema</p>
+        <h1 className="text-2xl font-display-gothic text-foreground">Dashboard</h1>
+        <p className="text-sm text-muted-foreground mt-1">Visão geral do sistema</p>
       </motion.div>
 
       {/* KPI Cards */}
@@ -109,15 +109,15 @@ export default function AdminDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              <Card className="bg-zinc-900 border-zinc-800 shadow-gothic-card">
+              <Card className="bg-card border-border shadow-gothic-card">
                 <CardContent className="p-5">
                   <div className="flex items-center gap-4">
                     <div className={`p-2.5 rounded-lg ${kpi.iconBg}`}>
                       <Icon className={`h-5 w-5 ${kpi.iconColor}`} />
                     </div>
                     <div>
-                      <p className="text-xl font-bold text-white">{kpi.value}</p>
-                      <p className="text-xs text-zinc-500 mt-0.5">{kpi.label}</p>
+                      <p className="text-xl font-bold text-foreground">{kpi.value}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{kpi.label}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -133,29 +133,29 @@ export default function AdminDashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <Card className="bg-zinc-900 border-zinc-800 shadow-gothic-card">
+        <Card className="bg-card border-border shadow-gothic-card">
           <CardContent className="p-5">
-            <h2 className="text-lg font-display-gothic text-white mb-4">Atividade Recente</h2>
+            <h2 className="text-lg font-display-gothic text-foreground mb-4">Atividade Recente</h2>
             {loading ? (
               <div className="space-y-3">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="h-10 bg-zinc-800 rounded animate-pulse" />
+                  <div key={i} className="h-10 bg-secondary rounded animate-pulse" />
                 ))}
               </div>
             ) : recentLogs.length === 0 ? (
-              <p className="text-zinc-500 text-sm">Nenhuma atividade registrada.</p>
+              <p className="text-muted-foreground text-sm">Nenhuma atividade registrada.</p>
             ) : (
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {recentLogs.map((log) => (
                   <div
                     key={log.id}
-                    className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-zinc-800/50 border border-zinc-800"
+                    className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-secondary/50 border border-border"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-white">{log.username}</span>
-                      <span className="text-xs text-zinc-500">{log.acao}</span>
+                      <span className="text-sm font-medium text-foreground">{log.username}</span>
+                      <span className="text-xs text-muted-foreground">{log.acao}</span>
                     </div>
-                    <span className="text-xs text-zinc-600">
+                    <span className="text-xs text-muted-foreground">
                       {new Date(log.created_at).toLocaleString('pt-BR')}
                     </span>
                   </div>

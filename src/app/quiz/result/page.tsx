@@ -131,12 +131,12 @@ function ResultContent() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-3">
           <Trophy className="w-6 h-6 text-yellow-500" />
-          <h1 className="font-display-gothic text-xl text-white tracking-wide">Resultado</h1>
+          <h1 className="font-display-gothic text-xl text-foreground tracking-wide">Resultado</h1>
         </div>
       </header>
 
@@ -148,7 +148,7 @@ function ResultContent() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
         >
-          <Card className={`bg-zinc-900 border-zinc-800 ${categoryStyle.glow}`}>
+          <Card className={`bg-card border-border ${categoryStyle.glow}`}>
             <CardContent className="pt-8 pb-8">
               <div className="text-center space-y-6">
                 {/* Category Icon */}
@@ -178,11 +178,11 @@ function ResultContent() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.4 }}
                 >
-                  <p className="text-zinc-500 text-sm mb-1">Pontuação</p>
-                  <p className="text-5xl md:text-6xl font-bold text-white font-display-gothic">
+                  <p className="text-muted-foreground text-sm mb-1">Pontuação</p>
+                  <p className="text-5xl md:text-6xl font-bold text-foreground font-display-gothic">
                     {pontuacao.toLocaleString('pt-BR')}
                   </p>
-                  <p className="text-zinc-600 text-xs mt-1">pontos</p>
+                  <p className="text-muted-foreground text-xs mt-1">pontos</p>
                 </motion.div>
 
                 {/* Stats Grid */}
@@ -192,20 +192,20 @@ function ResultContent() {
                   transition={{ duration: 0.4, delay: 0.5 }}
                   className="grid grid-cols-3 gap-4 max-w-md mx-auto"
                 >
-                  <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700/30">
+                  <div className="bg-secondary/50 rounded-xl p-4 border border-input/30">
                     <Target className="w-5 h-5 text-red-400 mx-auto mb-2" />
-                    <p className="text-white font-bold text-lg">{acertos}/{total}</p>
-                    <p className="text-zinc-500 text-xs">Acertos</p>
+                    <p className="text-foreground font-bold text-lg">{acertos}/{total}</p>
+                    <p className="text-muted-foreground text-xs">Acertos</p>
                   </div>
-                  <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700/30">
+                  <div className="bg-secondary/50 rounded-xl p-4 border border-input/30">
                     <Star className="w-5 h-5 text-yellow-500 mx-auto mb-2" />
-                    <p className="text-white font-bold text-lg">{Math.round(percentage)}%</p>
-                    <p className="text-zinc-500 text-xs">Precisão</p>
+                    <p className="text-foreground font-bold text-lg">{Math.round(percentage)}%</p>
+                    <p className="text-muted-foreground text-xs">Precisão</p>
                   </div>
-                  <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700/30">
+                  <div className="bg-secondary/50 rounded-xl p-4 border border-input/30">
                     <Clock className="w-5 h-5 text-blue-400 mx-auto mb-2" />
-                    <p className="text-white font-bold text-lg">{formatTime(tempo)}</p>
-                    <p className="text-zinc-500 text-xs">Tempo</p>
+                    <p className="text-foreground font-bold text-lg">{formatTime(tempo)}</p>
+                    <p className="text-muted-foreground text-xs">Tempo</p>
                   </div>
                 </motion.div>
               </div>
@@ -223,7 +223,7 @@ function ResultContent() {
           <Link href="/quiz">
             <Button
               size="lg"
-              className="bg-red-900 hover:bg-red-800 text-white font-display-gothic tracking-wider hover:shadow-gothic-crimson-glow transition-all duration-300 w-full sm:w-auto"
+              className="bg-primary hover:bg-primary/90 text-foreground font-display-gothic tracking-wider hover:shadow-gothic-crimson-glow transition-all duration-300 w-full sm:w-auto"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Jogar Novamente
@@ -233,7 +233,7 @@ function ResultContent() {
             <Button
               size="lg"
               variant="outline"
-              className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white font-display-gothic tracking-wider w-full sm:w-auto"
+              className="border-input text-muted-foreground hover:bg-secondary hover:text-foreground font-display-gothic tracking-wider w-full sm:w-auto"
             >
               <Home className="w-4 h-4 mr-2" />
               Dashboard
@@ -247,9 +247,9 @@ function ResultContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
-          <Card className="bg-zinc-900 border-zinc-800 shadow-gothic-card">
+          <Card className="bg-card border-border shadow-gothic-card">
             <CardHeader>
-              <CardTitle className="text-white font-display-gothic text-lg flex items-center gap-2">
+              <CardTitle className="text-foreground font-display-gothic text-lg flex items-center gap-2">
                 <Crown className="w-5 h-5 text-yellow-500" />
                 Ranking — Top 10
               </CardTitle>
@@ -259,28 +259,28 @@ function ResultContent() {
                 <div className="space-y-3">
                   {[...Array(5)].map((_, i) => (
                     <div key={i} className="flex items-center gap-3 animate-pulse">
-                      <div className="w-8 h-8 bg-zinc-800 rounded-lg" />
+                      <div className="w-8 h-8 bg-secondary rounded-lg" />
                       <div className="flex-1">
-                        <div className="h-3 bg-zinc-800 rounded w-28 mb-1" />
-                        <div className="h-2 bg-zinc-800/50 rounded w-20" />
+                        <div className="h-3 bg-secondary rounded w-28 mb-1" />
+                        <div className="h-2 bg-secondary/50 rounded w-20" />
                       </div>
-                      <div className="h-4 bg-zinc-800 rounded w-16" />
+                      <div className="h-4 bg-secondary rounded w-16" />
                     </div>
                   ))}
                 </div>
               ) : leaderboard.length === 0 ? (
                 <div className="text-center py-8">
-                  <Crown className="w-10 h-10 text-zinc-700 mx-auto mb-3" />
-                  <p className="text-zinc-500 text-sm">Nenhum resultado no ranking</p>
+                  <Crown className="w-10 h-10 text-muted-foreground/50 mx-auto mb-3" />
+                  <p className="text-muted-foreground text-sm">Nenhum resultado no ranking</p>
                 </div>
               ) : (
                 <div className="space-y-1.5">
                   {/* Header row */}
-                  <div className="grid grid-cols-[2.5rem_1fr_auto_auto] gap-2 px-2 pb-2 border-b border-zinc-800">
-                    <span className="text-xs text-zinc-600">#</span>
-                    <span className="text-xs text-zinc-600">Jogador</span>
-                    <span className="text-xs text-zinc-600 text-right min-w-[3rem]">Acertos</span>
-                    <span className="text-xs text-zinc-600 text-right min-w-[4.5rem]">Pontos</span>
+                  <div className="grid grid-cols-[2.5rem_1fr_auto_auto] gap-2 px-2 pb-2 border-b border-border">
+                    <span className="text-xs text-muted-foreground">#</span>
+                    <span className="text-xs text-muted-foreground">Jogador</span>
+                    <span className="text-xs text-muted-foreground text-right min-w-[3rem]">Acertos</span>
+                    <span className="text-xs text-muted-foreground text-right min-w-[4.5rem]">Pontos</span>
                   </div>
 
                   {leaderboard.map((entry, index) => {
@@ -298,7 +298,7 @@ function ResultContent() {
                             ? 'bg-red-950/30 border border-red-900/40'
                             : posStyle
                               ? `${posStyle.bg} border ${posStyle.border}`
-                              : 'hover:bg-zinc-800/30'
+                              : 'hover:bg-secondary/30'
                         }`}
                       >
                         {/* Position */}
@@ -306,7 +306,7 @@ function ResultContent() {
                           {index < 3 ? (
                             <span className="text-lg">{posStyle!.icon}</span>
                           ) : (
-                            <span className="text-zinc-500 text-sm font-mono">{index + 1}</span>
+                            <span className="text-muted-foreground text-sm font-mono">{index + 1}</span>
                           )}
                         </div>
 
@@ -317,7 +317,7 @@ function ResultContent() {
                               ? 'text-red-300'
                               : posStyle
                                 ? posStyle.text
-                                : 'text-zinc-300'
+                                : 'text-card-foreground'
                           }`}>
                             {entry.username}
                             {isCurrentUser && (
@@ -326,14 +326,14 @@ function ResultContent() {
                               </Badge>
                             )}
                           </p>
-                          <p className="text-xs text-zinc-600">
+                          <p className="text-xs text-muted-foreground">
                             {formatTime(entry.tempo_gasto)}
                           </p>
                         </div>
 
                         {/* Accuracy */}
                         <div className="text-right min-w-[3rem]">
-                          <p className="text-xs text-zinc-400">
+                          <p className="text-xs text-muted-foreground">
                             {entry.total_acertos}/{entry.total_questoes}
                           </p>
                         </div>
@@ -345,7 +345,7 @@ function ResultContent() {
                               ? 'text-red-300'
                               : posStyle
                                 ? posStyle.text
-                                : 'text-white'
+                                : 'text-foreground'
                           }`}>
                             {entry.pontuacao.toLocaleString('pt-BR')}
                           </p>
@@ -361,9 +361,9 @@ function ResultContent() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800 bg-zinc-950 mt-auto">
+      <footer className="border-t border-border bg-background mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
-          <p className="text-zinc-600 text-xs">
+          <p className="text-muted-foreground text-xs">
             Dados baseados no Censo Demográfico 2022 — IBGE
           </p>
         </div>
@@ -376,10 +376,10 @@ export default function QuizResultPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+        <div className="min-h-screen bg-background flex items-center justify-center">
           <div className="text-center space-y-4">
             <Trophy className="w-12 h-12 text-yellow-500 animate-pulse mx-auto" />
-            <p className="font-display-gothic text-2xl text-white tracking-wider">Carregando Resultado</p>
+            <p className="font-display-gothic text-2xl text-foreground tracking-wider">Carregando Resultado</p>
           </div>
         </div>
       }

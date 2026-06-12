@@ -168,15 +168,15 @@ export default function AdminIbge() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div>
-          <h1 className="text-2xl font-display-gothic text-white">Banco IBGE</h1>
-          <p className="text-sm text-zinc-500 mt-1">Gerenciamento de dados IBGE</p>
+          <h1 className="text-2xl font-display-gothic text-foreground">Banco IBGE</h1>
+          <p className="text-sm text-muted-foreground mt-1">Gerenciamento de dados IBGE</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={loadData}
-            className="border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600"
+            className="border-input text-muted-foreground hover:text-foreground hover:border-ring"
           >
             <RefreshCw className="h-4 w-4 mr-2" />
             Atualizar
@@ -184,7 +184,7 @@ export default function AdminIbge() {
           <Button
             size="sm"
             onClick={openAdd}
-            className="bg-red-900 hover:bg-red-800 text-white"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             <Plus className="h-4 w-4 mr-2" />
             Novo Dado
@@ -200,11 +200,11 @@ export default function AdminIbge() {
         className="flex flex-wrap gap-3"
       >
         <Select value={filterCategoria} onValueChange={setFilterCategoria}>
-          <SelectTrigger className="w-48 bg-zinc-900 border-zinc-800 text-white">
+          <SelectTrigger className="w-48 bg-card border-border text-foreground">
             <SelectValue placeholder="Categoria" />
           </SelectTrigger>
-          <SelectContent className="bg-zinc-900 border-zinc-800">
-            <SelectItem value="all" className="text-zinc-400">Todas Categorias</SelectItem>
+          <SelectContent className="bg-card border-border">
+            <SelectItem value="all" className="text-muted-foreground">Todas Categorias</SelectItem>
             {categorias.map((c) => (
               <SelectItem key={c} value={c} className="text-white">{c}</SelectItem>
             ))}
@@ -212,11 +212,11 @@ export default function AdminIbge() {
         </Select>
 
         <Select value={filterRegiao} onValueChange={setFilterRegiao}>
-          <SelectTrigger className="w-48 bg-zinc-900 border-zinc-800 text-white">
+          <SelectTrigger className="w-48 bg-card border-border text-foreground">
             <SelectValue placeholder="Região" />
           </SelectTrigger>
-          <SelectContent className="bg-zinc-900 border-zinc-800">
-            <SelectItem value="all" className="text-zinc-400">Todas Regiões</SelectItem>
+          <SelectContent className="bg-card border-border">
+            <SelectItem value="all" className="text-muted-foreground">Todas Regiões</SelectItem>
             {regioes.map((r) => (
               <SelectItem key={r} value={r} className="text-white">{r}</SelectItem>
             ))}
@@ -238,18 +238,18 @@ export default function AdminIbge() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              className="bg-card border border-border rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-display-gothic text-white">
+                <h2 className="text-lg font-display-gothic text-foreground">
                   {editingId ? 'Editar Dado' : 'Novo Dado IBGE'}
                 </h2>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowForm(false)}
-                  className="text-zinc-500 hover:text-white"
+                  className="text-muted-foreground hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -257,78 +257,78 @@ export default function AdminIbge() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
-                  <Label className="text-zinc-400 text-xs">Indicador *</Label>
+                  <Label className="text-muted-foreground text-xs">Indicador *</Label>
                   <Input
                     value={form.indicador}
                     onChange={(e) => updateForm('indicador', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <Label className="text-zinc-400 text-xs">Descrição</Label>
+                  <Label className="text-muted-foreground text-xs">Descrição</Label>
                   <Input
                     value={form.descricao}
                     onChange={(e) => updateForm('descricao', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">Ano *</Label>
+                  <Label className="text-muted-foreground text-xs">Ano *</Label>
                   <Input
                     type="number"
                     value={form.ano}
                     onChange={(e) => updateForm('ano', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">Região *</Label>
+                  <Label className="text-muted-foreground text-xs">Região *</Label>
                   <Input
                     value={form.regiao}
                     onChange={(e) => updateForm('regiao', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">UF</Label>
+                  <Label className="text-muted-foreground text-xs">UF</Label>
                   <Input
                     value={form.uf}
                     onChange={(e) => updateForm('uf', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">Valor *</Label>
+                  <Label className="text-muted-foreground text-xs">Valor *</Label>
                   <Input
                     type="number"
                     step="0.01"
                     value={form.valor}
                     onChange={(e) => updateForm('valor', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">Unidade</Label>
+                  <Label className="text-muted-foreground text-xs">Unidade</Label>
                   <Input
                     value={form.unidade}
                     onChange={(e) => updateForm('unidade', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">Categoria *</Label>
+                  <Label className="text-muted-foreground text-xs">Categoria *</Label>
                   <Input
                     value={form.categoria}
                     onChange={(e) => updateForm('categoria', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-zinc-400 text-xs">Subcategoria</Label>
+                  <Label className="text-muted-foreground text-xs">Subcategoria</Label>
                   <Input
                     value={form.subcategoria}
                     onChange={(e) => updateForm('subcategoria', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white mt-1"
+                    className="bg-secondary border-input text-foreground mt-1"
                   />
                 </div>
               </div>
@@ -337,14 +337,14 @@ export default function AdminIbge() {
                 <Button
                   variant="outline"
                   onClick={() => setShowForm(false)}
-                  className="border-zinc-700 text-zinc-400"
+                  className="border-input text-muted-foreground"
                 >
                   Cancelar
                 </Button>
                 <Button
                   onClick={handleSave}
                   disabled={saving}
-                  className="bg-red-900 hover:bg-red-800 text-white"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   {saving ? 'Salvando...' : editingId ? 'Salvar Alterações' : 'Criar Registro'}
                 </Button>
@@ -360,35 +360,35 @@ export default function AdminIbge() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <Card className="bg-zinc-900 border-zinc-800 shadow-gothic-card">
+        <Card className="bg-card border-border shadow-gothic-card">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-800">
-                    <th className="text-left p-4 text-zinc-500 font-medium">Indicador</th>
-                    <th className="text-left p-4 text-zinc-500 font-medium">Ano</th>
-                    <th className="text-left p-4 text-zinc-500 font-medium">Região</th>
-                    <th className="text-left p-4 text-zinc-500 font-medium">Valor</th>
-                    <th className="text-left p-4 text-zinc-500 font-medium">Unidade</th>
-                    <th className="text-left p-4 text-zinc-500 font-medium">Categoria</th>
-                    <th className="text-left p-4 text-zinc-500 font-medium">Ações</th>
+                  <tr className="border-b border-border">
+                    <th className="text-left p-4 text-muted-foreground font-medium">Indicador</th>
+                    <th className="text-left p-4 text-muted-foreground font-medium">Ano</th>
+                    <th className="text-left p-4 text-muted-foreground font-medium">Região</th>
+                    <th className="text-left p-4 text-muted-foreground font-medium">Valor</th>
+                    <th className="text-left p-4 text-muted-foreground font-medium">Unidade</th>
+                    <th className="text-left p-4 text-muted-foreground font-medium">Categoria</th>
+                    <th className="text-left p-4 text-muted-foreground font-medium">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
                     [...Array(5)].map((_, i) => (
-                      <tr key={i} className="border-b border-zinc-800/50">
+                      <tr key={i} className="border-b border-border/50">
                         {[...Array(7)].map((_, j) => (
                           <td key={j} className="p-4">
-                            <div className="h-4 bg-zinc-800 rounded animate-pulse w-20" />
+                            <div className="h-4 bg-secondary rounded animate-pulse w-20" />
                           </td>
                         ))}
                       </tr>
                     ))
                   ) : data.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="p-8 text-center text-zinc-500">
+                      <td colSpan={7} className="p-8 text-center text-muted-foreground">
                         Nenhum dado encontrado.
                       </td>
                     </tr>
@@ -396,17 +396,17 @@ export default function AdminIbge() {
                     data.map((row) => (
                       <tr
                         key={row.id}
-                        className="border-b border-zinc-800/50 hover:bg-zinc-800/30 transition-colors"
+                        className="border-b border-border/50 hover:bg-secondary/30 transition-colors"
                       >
-                        <td className="p-4 text-white max-w-[200px] truncate">{row.indicador}</td>
-                        <td className="p-4 text-zinc-400">{row.ano}</td>
-                        <td className="p-4 text-zinc-400">{row.regiao}</td>
-                        <td className="p-4 text-white font-medium">
+                        <td className="p-4 text-foreground max-w-[200px] truncate">{row.indicador}</td>
+                        <td className="p-4 text-muted-foreground">{row.ano}</td>
+                        <td className="p-4 text-muted-foreground">{row.regiao}</td>
+                        <td className="p-4 text-foreground font-medium">
                           {typeof row.valor === 'number' ? row.valor.toLocaleString('pt-BR') : row.valor}
                         </td>
-                        <td className="p-4 text-zinc-500">{row.unidade || '—'}</td>
+                        <td className="p-4 text-muted-foreground">{row.unidade || '—'}</td>
                         <td className="p-4">
-                          <Badge variant="outline" className="border-zinc-700 text-zinc-400 text-xs">
+                          <Badge variant="outline" className="border-input text-muted-foreground text-xs">
                             {row.categoria}
                           </Badge>
                         </td>
@@ -415,7 +415,7 @@ export default function AdminIbge() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="h-8 w-8 text-zinc-500 hover:text-amber-400 hover:bg-zinc-800"
+                              className="h-8 w-8 text-muted-foreground hover:text-amber-400 hover:bg-secondary"
                               onClick={() => openEdit(row)}
                               title="Editar"
                             >
@@ -424,7 +424,7 @@ export default function AdminIbge() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="h-8 w-8 text-zinc-500 hover:text-red-400 hover:bg-zinc-800"
+                              className="h-8 w-8 text-muted-foreground hover:text-red-400 hover:bg-secondary"
                               onClick={() => handleDelete(row.id)}
                               title="Excluir"
                             >

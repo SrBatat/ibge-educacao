@@ -202,15 +202,15 @@ export default function QuizPlay() {
   // Loading state
   if (gameState === 'LOADING') {
     return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center space-y-4"
         >
-          <Loader2 className="w-12 h-12 text-red-500 animate-spin mx-auto" />
-          <p className="font-display-gothic text-2xl text-white tracking-wider">Preparando o Desafio</p>
-          <p className="text-zinc-500 text-sm">Carregando questões...</p>
+          <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto" />
+          <p className="font-display-gothic text-2xl text-foreground tracking-wider">Preparando o Desafio</p>
+          <p className="text-muted-foreground text-sm">Carregando questões...</p>
         </motion.div>
       </div>
     );
@@ -219,19 +219,19 @@ export default function QuizPlay() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center space-y-4 max-w-md px-4"
         >
-          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
-          <p className="font-display-gothic text-2xl text-white tracking-wider">Erro</p>
-          <p className="text-zinc-400">{error}</p>
+          <AlertTriangle className="w-12 h-12 text-primary mx-auto" />
+          <p className="font-display-gothic text-2xl text-foreground tracking-wider">Erro</p>
+          <p className="text-muted-foreground">{error}</p>
           <Button
             onClick={() => router.push('/quiz')}
             variant="outline"
-            className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+            className="border-input text-card-foreground hover:bg-secondary hover:text-foreground"
           >
             Voltar ao Lobby
           </Button>
@@ -249,7 +249,7 @@ export default function QuizPlay() {
 
   const getOptionStyle = (optionKey: string) => {
     if (gameState !== 'ANSWERED') {
-      return 'bg-zinc-900 border-zinc-700 hover:border-zinc-500 hover:bg-zinc-800 cursor-pointer';
+      return 'bg-card border-input hover:border-zinc-500 hover:bg-secondary cursor-pointer';
     }
 
     if (optionKey === currentQuestion.resposta_correta) {
@@ -258,7 +258,7 @@ export default function QuizPlay() {
     if (optionKey === selectedOption && !isCorrect) {
       return 'bg-red-950/50 border-red-600 cursor-default';
     }
-    return 'bg-zinc-900/50 border-zinc-800 cursor-default opacity-50';
+    return 'bg-card/50 border-border cursor-default opacity-50';
   };
 
   const getOptionIcon = (optionKey: string) => {
@@ -273,37 +273,37 @@ export default function QuizPlay() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Top Progress Bar */}
-      <div className="sticky top-0 z-20 bg-zinc-950 border-b border-zinc-800">
+      <div className="sticky top-0 z-20 bg-background border-b border-border">
         <div className="max-w-3xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="border-zinc-700 text-zinc-400">
+              <Badge variant="outline" className="border-input text-muted-foreground">
                 {currentIndex + 1} / {questions.length}
               </Badge>
               {currentQuestion.categoria && (
-                <Badge variant="outline" className="border-zinc-700 text-zinc-500">
+                <Badge variant="outline" className="border-input text-muted-foreground">
                   {currentQuestion.categoria}
                 </Badge>
               )}
             </div>
             <div className="flex items-center gap-3">
-              <div className="text-sm text-zinc-400">
-                Pontos: <span className="text-white font-bold">{score}</span>
+              <div className="text-sm text-muted-foreground">
+                Pontos: <span className="text-foreground font-bold">{score}</span>
               </div>
             </div>
           </div>
-          <Progress value={progressPercent} className="h-1.5 bg-zinc-800" />
+          <Progress value={progressPercent} className="h-1.5 bg-secondary" />
         </div>
       </div>
 
       {/* Timer Bar */}
       <div className="max-w-3xl mx-auto w-full px-4 pt-4">
         <div className="flex items-center gap-3 mb-6">
-          <Clock className={`w-4 h-4 ${timeLeft <= 10 ? 'text-red-500' : 'text-zinc-500'}`} />
+          <Clock className={`w-4 h-4 ${timeLeft <= 10 ? 'text-red-500' : 'text-muted-foreground'}`} />
           <div className="flex-1">
-            <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+            <div className="h-2 bg-secondary rounded-full overflow-hidden">
               <motion.div
                 className={`h-full rounded-full transition-colors duration-300 ${
                   timeLeft > 10 ? 'bg-red-800' : 'bg-red-500'
@@ -315,7 +315,7 @@ export default function QuizPlay() {
             </div>
           </div>
           <span className={`text-sm font-mono font-bold min-w-[3ch] text-right ${
-            timeLeft <= 10 ? 'text-red-500' : 'text-zinc-400'
+            timeLeft <= 10 ? 'text-red-500' : 'text-muted-foreground'
           }`}>
             {timeLeft}
           </span>
@@ -333,17 +333,17 @@ export default function QuizPlay() {
             transition={{ duration: 0.3 }}
           >
             {/* Question */}
-            <Card className="bg-zinc-900 border-zinc-800 shadow-gothic-card mb-6">
+            <Card className="bg-card border-border shadow-gothic-card mb-6">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Badge
                     variant="outline"
-                    className={`${difficultyColors[currentQuestion.dificuldade] || 'text-zinc-400 border-zinc-700'} text-xs`}
+                    className={`${difficultyColors[currentQuestion.dificuldade] || 'text-muted-foreground border-input'} text-xs`}
                   >
                     {difficultyLabels[currentQuestion.dificuldade] || currentQuestion.dificuldade}
                   </Badge>
                 </div>
-                <h2 className="text-white text-lg md:text-xl font-medium leading-relaxed">
+                <h2 className="text-foreground text-lg md:text-xl font-medium leading-relaxed">
                   {currentQuestion.pergunta}
                 </h2>
               </CardContent>
@@ -370,7 +370,7 @@ export default function QuizPlay() {
                         ? 'bg-emerald-900 text-emerald-300'
                         : gameState === 'ANSWERED' && optionLabel === selectedOption && !isCorrect
                           ? 'bg-red-900 text-red-300'
-                          : 'bg-zinc-800 text-zinc-400'
+                          : 'bg-secondary text-muted-foreground'
                     }`}>
                       {optionLabel}
                     </div>
@@ -379,7 +379,7 @@ export default function QuizPlay() {
                         ? 'text-emerald-200'
                         : gameState === 'ANSWERED' && optionLabel === selectedOption && !isCorrect
                           ? 'text-red-200'
-                          : 'text-zinc-300'
+                          : 'text-card-foreground'
                     }`}>
                       {optionText}
                     </span>
@@ -402,7 +402,7 @@ export default function QuizPlay() {
                   {/* Result Feedback */}
                   <div className={`p-4 rounded-xl border ${
                     isTimeout
-                      ? 'bg-zinc-900 border-zinc-700'
+                      ? 'bg-card border-input'
                       : isCorrect
                         ? 'bg-emerald-950/30 border-emerald-800/50'
                         : 'bg-red-950/30 border-red-800/50'
@@ -410,8 +410,8 @@ export default function QuizPlay() {
                     <div className="flex items-center gap-3 mb-2">
                       {isTimeout ? (
                         <>
-                          <Clock className="w-5 h-5 text-zinc-400" />
-                          <span className="text-zinc-300 font-semibold">Tempo esgotado!</span>
+                          <Clock className="w-5 h-5 text-muted-foreground" />
+                          <span className="text-card-foreground font-semibold">Tempo esgotado!</span>
                         </>
                       ) : isCorrect ? (
                         <>
@@ -430,14 +430,14 @@ export default function QuizPlay() {
                     </div>
 
                     {!isCorrect && !isTimeout && (
-                      <p className="text-zinc-400 text-sm">
-                        Resposta correta: <span className="text-white font-medium">{currentQuestion.resposta_correta}</span>
+                      <p className="text-muted-foreground text-sm">
+                        Resposta correta: <span className="text-foreground font-medium">{currentQuestion.resposta_correta}</span>
                       </p>
                     )}
 
                     {currentQuestion.explicacao && (
-                      <p className="text-zinc-400 text-sm mt-2 leading-relaxed">
-                        <span className="text-zinc-300 font-medium">Explicação:</span> {currentQuestion.explicacao}
+                      <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
+                        <span className="text-card-foreground font-medium">Explicação:</span> {currentQuestion.explicacao}
                       </p>
                     )}
                   </div>
@@ -448,8 +448,8 @@ export default function QuizPlay() {
                     size="lg"
                     className={`w-full font-display-gothic text-base tracking-wider transition-all duration-300 ${
                       currentIndex >= questions.length - 1
-                        ? 'bg-red-900 hover:bg-red-800 hover:shadow-gothic-crimson-glow text-white'
-                        : 'bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700'
+                        ? 'bg-primary hover:bg-primary/90 hover:shadow-gothic-crimson-glow text-foreground'
+                        : 'bg-secondary hover:bg-secondary/80 text-foreground border border-input'
                     }`}
                   >
                     {currentIndex >= questions.length - 1 ? (

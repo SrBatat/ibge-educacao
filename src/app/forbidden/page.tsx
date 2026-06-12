@@ -9,7 +9,7 @@ export default function ForbiddenPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -46,7 +46,7 @@ export default function ForbiddenPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className="text-zinc-400 max-w-md"
+          className="text-muted-foreground max-w-md"
         >
           Apenas administradores podem acessar esta área.
         </motion.p>
@@ -59,13 +59,13 @@ export default function ForbiddenPage() {
         >
           <Button
             variant="outline"
-            className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+            className="border-input text-card-foreground hover:bg-secondary hover:text-foreground"
             onClick={() => router.push('/')}
           >
             Voltar ao Dashboard
           </Button>
           <Button
-            className="bg-red-700 hover:bg-red-800 text-white"
+            className="bg-primary hover:bg-primary/90 text-white"
             onClick={() => router.push('/login')}
           >
             Fazer Login

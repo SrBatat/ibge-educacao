@@ -43,73 +43,220 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ===================================================================
+   THEME DEFINITIONS
+   =================================================================== */
+
+/* --- Base / Fallback (Light) --- */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #991b1b;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #ef4444;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #991b1b;
+  --chart-1: #b91c1c;
+  --chart-2: #7c3aed;
+  --chart-3: #16a34a;
+  --chart-4: #d97706;
+  --chart-5: #0284c7;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #09090b;
+  --sidebar-primary: #991b1b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #991b1b;
 }
 
+/* --- Theme: Gothic Dark (default) --- */
+[data-theme="gothic"],
 .dark {
-  --background: oklch(0.07 0.005 285);     /* Gothic-950 #0a0a0c — very dark with slight purple undertone */
-  --foreground: oklch(0.95 0 0);             /* Near-white for primary text */
-  --card: oklch(0.11 0.005 285);             /* Gothic-900 #121216 — dark card background */
-  --card-foreground: oklch(0.95 0 0);        /* Near-white text on cards */
-  --popover: oklch(0.11 0.005 285);          /* Gothic-900 — dark popover background */
-  --popover-foreground: oklch(0.95 0 0);     /* Near-white text in popovers */
-  --primary: oklch(0.577 0.245 27.325);      /* Crimson-500 #b91c1c — gothic accent */
-  --primary-foreground: oklch(0.98 0 0);     /* White text on primary */
-  --secondary: oklch(0.18 0.008 285);        /* Gothic-800 #1a1a22 */
-  --secondary-foreground: oklch(0.90 0 0);   /* Light text on secondary */
-  --muted: oklch(0.18 0.008 285);            /* Gothic-800 muted background */
-  --muted-foreground: oklch(0.65 0.01 285);  /* Gothic-500 readable muted text */
-  --accent: oklch(0.18 0.008 285);           /* Gothic-800 accent background */
-  --accent-foreground: oklch(0.90 0 0);      /* Light text on accent */
-  --destructive: oklch(0.577 0.245 27.325);  /* Crimson — matches primary */
-  --border: oklch(1 0 0 / 10%);              /* Subtle white border */
-  --input: oklch(1 0 0 / 15%);               /* Subtle white input border */
-  --ring: oklch(0.577 0.15 27.325);          /* Crimson ring for focus */
-  --chart-1: oklch(0.577 0.245 27.325);      /* Crimson chart color */
-  --chart-2: oklch(0.55 0.22 300);           /* Purple chart color */
-  --chart-3: oklch(0.65 0.2 145);            /* Emerald chart color */
-  --chart-4: oklch(0.65 0.18 80);            /* Amber chart color */
-  --chart-5: oklch(0.6 0.18 230);            /* Sky chart color */
-  --sidebar: oklch(0.11 0.005 285);          /* Gothic-900 sidebar */
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.577 0.245 27.325); /* Crimson sidebar primary */
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.18 0.008 285);
-  --sidebar-accent-foreground: oklch(0.90 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.577 0.15 27.325);
+  --background: #0a0a0c;
+  --foreground: #f4f4f5;
+  --card: #121216;
+  --card-foreground: #f4f4f5;
+  --popover: #121216;
+  --popover-foreground: #f4f4f5;
+  --primary: #b91c1c;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a22;
+  --secondary-foreground: #e4e4e7;
+  --muted: #1a1a22;
+  --muted-foreground: #a1a1aa;
+  --accent: #1a1a22;
+  --accent-foreground: #e4e4e7;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.10);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #b91c1c;
+  --chart-1: #b91c1c;
+  --chart-2: #7c3aed;
+  --chart-3: #16a34a;
+  --chart-4: #d97706;
+  --chart-5: #0284c7;
+  --sidebar: #121216;
+  --sidebar-foreground: #f4f4f5;
+  --sidebar-primary: #b91c1c;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a22;
+  --sidebar-accent-foreground: #e4e4e7;
+  --sidebar-border: rgba(255, 255, 255, 0.10);
+  --sidebar-ring: #b91c1c;
+}
+
+/* --- Theme: Light Clean --- */
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #991b1b;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #fef2f2;
+  --accent-foreground: #991b1b;
+  --destructive: #ef4444;
+  --border: #e4e4e7;
+  --input: #d4d4d8;
+  --ring: #991b1b;
+  --chart-1: #b91c1c;
+  --chart-2: #7c3aed;
+  --chart-3: #16a34a;
+  --chart-4: #d97706;
+  --chart-5: #0284c7;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #09090b;
+  --sidebar-primary: #991b1b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #991b1b;
+}
+
+/* --- Theme: Midnight Blue --- */
+[data-theme="midnight"] {
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --card: #1e293b;
+  --card-foreground: #e2e8f0;
+  --popover: #1e293b;
+  --popover-foreground: #e2e8f0;
+  --primary: #d97706;
+  --primary-foreground: #0f172a;
+  --secondary: #1e293b;
+  --secondary-foreground: #cbd5e1;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #e2e8f0;
+  --destructive: #ef4444;
+  --border: rgba(148, 163, 184, 0.20);
+  --input: rgba(148, 163, 184, 0.25);
+  --ring: #d97706;
+  --chart-1: #d97706;
+  --chart-2: #0284c7;
+  --chart-3: #16a34a;
+  --chart-4: #7c3aed;
+  --chart-5: #ef4444;
+  --sidebar: #1e293b;
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: #d97706;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #e2e8f0;
+  --sidebar-border: rgba(148, 163, 184, 0.20);
+  --sidebar-ring: #d97706;
+}
+
+/* --- Theme: Forest Dark --- */
+[data-theme="forest"] {
+  --background: #052e16;
+  --foreground: #e2e8f0;
+  --card: #14532d;
+  --card-foreground: #e2e8f0;
+  --popover: #14532d;
+  --popover-foreground: #e2e8f0;
+  --primary: #d97706;
+  --primary-foreground: #052e16;
+  --secondary: #14532d;
+  --secondary-foreground: #bbf7d0;
+  --muted: #14532d;
+  --muted-foreground: #86efac;
+  --accent: #1a4a2e;
+  --accent-foreground: #e2e8f0;
+  --destructive: #ef4444;
+  --border: rgba(134, 239, 172, 0.15);
+  --input: rgba(134, 239, 172, 0.20);
+  --ring: #d97706;
+  --chart-1: #d97706;
+  --chart-2: #0284c7;
+  --chart-3: #16a34a;
+  --chart-4: #7c3aed;
+  --chart-5: #ef4444;
+  --sidebar: #14532d;
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: #d97706;
+  --sidebar-primary-foreground: #052e16;
+  --sidebar-accent: #1a4a2e;
+  --sidebar-accent-foreground: #e2e8f0;
+  --sidebar-border: rgba(134, 239, 172, 0.15);
+  --sidebar-ring: #d97706;
+}
+
+/* --- Theme: Rose Light --- */
+[data-theme="rose"] {
+  --background: #fdf2f8;
+  --foreground: #1c1917;
+  --card: #ffffff;
+  --card-foreground: #1c1917;
+  --popover: #ffffff;
+  --popover-foreground: #1c1917;
+  --primary: #e11d48;
+  --primary-foreground: #ffffff;
+  --secondary: #fce7f3;
+  --secondary-foreground: #881337;
+  --muted: #fce7f3;
+  --muted-foreground: #9f1239;
+  --accent: #fff1f2;
+  --accent-foreground: #e11d48;
+  --destructive: #ef4444;
+  --border: #fce7f3;
+  --input: #fda4af;
+  --ring: #e11d48;
+  --chart-1: #e11d48;
+  --chart-2: #7c3aed;
+  --chart-3: #16a34a;
+  --chart-4: #d97706;
+  --chart-5: #0284c7;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1c1917;
+  --sidebar-primary: #e11d48;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fce7f3;
+  --sidebar-accent-foreground: #881337;
+  --sidebar-border: #fce7f3;
+  --sidebar-ring: #e11d48;
 }
 
 @layer base {
@@ -224,9 +371,9 @@
 .shimmer-gothic {
   background: linear-gradient(
     90deg,
-    rgba(42, 42, 53, 0.3) 25%,
-    rgba(82, 82, 106, 0.15) 50%,
-    rgba(42, 42, 53, 0.3) 75%
+    rgba(128, 128, 128, 0.06) 25%,
+    rgba(128, 128, 128, 0.12) 50%,
+    rgba(128, 128, 128, 0.06) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
@@ -262,23 +409,24 @@
   animation: numberGlow 4s ease-in-out infinite;
 }
 
-/* === Scrollbar Gothic Style === */
+/* === Scrollbar Style === */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0c;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a35;
+  background: var(--muted-foreground);
   border-radius: 4px;
+  opacity: 0.4;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3a48;
+  opacity: 0.7;
 }
 ::-webkit-scrollbar-corner {
-  background: #0a0a0c;
+  background: var(--background);
 }
 
 /* === Selection Style === */
@@ -287,9 +435,9 @@
   color: #fff;
 }
 
-/* === Focus Ring Gothic === */
+/* === Focus Ring === */
 :focus-visible {
-  outline: 2px solid rgba(185, 28, 28, 0.5);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 

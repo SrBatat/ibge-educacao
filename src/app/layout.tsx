@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import Footer from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,19 +50,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="dark" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        {/* Inline script to set theme before paint — prevents flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme') || 'gothic';
+                  document.documentElement.setAttribute('data-theme', theme);
+                  if (theme !== 'light' && theme !== 'rose') {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
       >
-        <ErrorBoundary>
-          <AuthProvider>
-            <div className="min-h-screen flex flex-col">
-              {children}
-              <Footer />
-            </div>
-          </AuthProvider>
-          <Toaster />
-        </ErrorBoundary>
+        <ThemeProvider>
+          <ErrorBoundary>
+            <AuthProvider>
+              <div className="min-h-screen flex flex-col">
+                {children}
+                <Footer />
+              </div>
+            </AuthProvider>
+            <Toaster />
+          </ErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   );

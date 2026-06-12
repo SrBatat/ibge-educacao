@@ -53,13 +53,13 @@ const CHART_COLORS = [
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string }>; label?: string }) {
   if (!active || !payload) return null;
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-3 shadow-xl text-sm">
-      <p className="text-zinc-300 font-medium mb-1">{label}</p>
+    <div className="bg-card border border-input rounded-lg p-3 shadow-xl text-sm">
+      <p className="text-card-foreground font-medium mb-1">{label}</p>
       {payload.map((entry, i) => (
         <p key={i} className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
-          <span className="text-zinc-400">{entry.name}:</span>
-          <span className="text-white font-semibold">{typeof entry.value === 'number' ? entry.value.toFixed(1) : entry.value}%</span>
+          <span className="text-muted-foreground">{entry.name}:</span>
+          <span className="text-foreground font-semibold">{typeof entry.value === 'number' ? entry.value.toFixed(1) : entry.value}%</span>
         </p>
       ))}
     </div>
@@ -72,12 +72,12 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
 function SectionHeader({ title, description, icon: Icon }: { title: string; description: string; icon: React.ElementType }) {
   return (
     <div className="flex items-center gap-3 mb-6">
-      <div className="w-8 h-8 rounded-lg bg-red-950 flex items-center justify-center">
-        <Icon className="w-4 h-4 text-red-400" />
+      <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+        <Icon className="w-4 h-4 text-primary" />
       </div>
       <div>
-        <h2 className="text-lg font-semibold text-white">{title}</h2>
-        <p className="text-xs text-zinc-500">{description}</p>
+        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+        <p className="text-xs text-muted-foreground">{description}</p>
       </div>
     </div>
   );
@@ -197,15 +197,15 @@ function EducacaoTab() {
 
       {/* Region Selector + Main Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-2 bg-zinc-950 border-zinc-800">
+        <Card className="lg:col-span-2 bg-background border-border">
           <CardHeader className="pb-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <CardTitle className="text-white text-base font-display-gothic">Frequência Escolar por Idade e Sexo</CardTitle>
-                <CardDescription className="text-zinc-500 text-xs">Taxa bruta de frequência escolar — {selectedRegiao} — 2022</CardDescription>
+                <CardTitle className="text-foreground text-base font-display-gothic">Frequência Escolar por Idade e Sexo</CardTitle>
+                <CardDescription className="text-muted-foreground text-xs">Taxa bruta de frequência escolar — {selectedRegiao} — 2022</CardDescription>
               </div>
               <Select value={selectedRegiao} onValueChange={setSelectedRegiao}>
-                <SelectTrigger className="w-[180px] bg-zinc-900 border-zinc-700 text-white text-xs">
+                <SelectTrigger className="w-[180px] bg-card border-input text-foreground text-xs">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -232,10 +232,10 @@ function EducacaoTab() {
         </Card>
 
         {/* Gender Gap Chart */}
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Gap de Gênero</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Diferença Mulheres - Homens (p.p.)</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Gap de Gênero</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Diferença Mulheres - Homens (p.p.)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
@@ -258,10 +258,10 @@ function EducacaoTab() {
 
       {/* Regional Radar + Comparison */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Perfil Regional da Educação</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Comparação entre Grandes Regiões — Radar</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Perfil Regional da Educação</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Comparação entre Grandes Regiões — Radar</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
@@ -279,10 +279,10 @@ function EducacaoTab() {
           </CardContent>
         </Card>
 
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Comparação por Nível de Ensino</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Grandes Regiões — Taxa de frequência escolar (%)</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Comparação por Nível de Ensino</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Grandes Regiões — Taxa de frequência escolar (%)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
@@ -303,15 +303,15 @@ function EducacaoTab() {
       </div>
 
       {/* State-level detail */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <CardTitle className="text-white text-base font-display-gothic">Detalhamento por Estado</CardTitle>
-              <CardDescription className="text-zinc-500 text-xs">Frequência escolar por UF na região selecionada</CardDescription>
+              <CardTitle className="text-foreground text-base font-display-gothic">Detalhamento por Estado</CardTitle>
+              <CardDescription className="text-muted-foreground text-xs">Frequência escolar por UF na região selecionada</CardDescription>
             </div>
             <Select value={selectedRegiao} onValueChange={setSelectedRegiao}>
-              <SelectTrigger className="w-[180px] bg-zinc-900 border-zinc-700 text-white text-xs">
+              <SelectTrigger className="w-[180px] bg-card border-input text-foreground text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -338,7 +338,7 @@ function EducacaoTab() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-64 text-zinc-600 text-sm">
+            <div className="flex items-center justify-center h-64 text-muted-foreground text-sm">
               Selecione uma região para ver os estados
             </div>
           )}
@@ -346,35 +346,35 @@ function EducacaoTab() {
       </Card>
 
       {/* Data Table */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Frequência Escolar</CardTitle>
-          <CardDescription className="text-zinc-500 text-xs">Taxa bruta por grupo de idade e sexo — Censo 2022</CardDescription>
+          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Frequência Escolar</CardTitle>
+          <CardDescription className="text-muted-foreground text-xs">Taxa bruta por grupo de idade e sexo — Censo 2022</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-zinc-800">
-                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                <tr className="border-b border-border">
+                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
                   <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={6}>Homens</th>
                   <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={6}>Mulheres</th>
                 </tr>
-                <tr className="border-b border-zinc-800">
+                <tr className="border-b border-border">
                   {ageGroups.concat(ageGroups).map((g, i) => (
-                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{g.replace(' anos', '')}</th>
+                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{g.replace(' anos', '')}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {frequenciaEscolar.filter(d => regioes.includes(d.regiao)).map((row, ri) => (
-                  <tr key={ri} className={`border-b border-zinc-900 ${row.regiao === selectedRegiao ? 'bg-zinc-900/50' : 'hover:bg-zinc-900/30'}`}>
-                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
+                  <tr key={ri} className={`border-b border-zinc-900 ${row.regiao === selectedRegiao ? 'bg-card/50' : 'hover:bg-card/30'}`}>
+                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
                     {ageGroupKeys.map(key => (
-                      <td key={`h-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.homens[key].toFixed(1)}</td>
+                      <td key={`h-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.homens[key].toFixed(1)}</td>
                     ))}
                     {ageGroupKeys.map(key => (
-                      <td key={`m-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres[key].toFixed(1)}</td>
+                      <td key={`m-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres[key].toFixed(1)}</td>
                     ))}
                   </tr>
                 ))}
@@ -419,10 +419,10 @@ function OcupacaoTab() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Main bar chart */}
-        <Card className="lg:col-span-2 bg-zinc-950 border-zinc-800">
+        <Card className="lg:col-span-2 bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Situação de Ocupação por Região</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Pessoas de 14+ anos — Censo 2022</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Situação de Ocupação por Região</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Pessoas de 14+ anos — Censo 2022</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={340}>
@@ -441,10 +441,10 @@ function OcupacaoTab() {
         </Card>
 
         {/* Pie chart */}
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Ocupação — Brasil</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Distribuição percentual</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Ocupação — Brasil</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Distribuição percentual</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={200}>
@@ -461,7 +461,7 @@ function OcupacaoTab() {
               {occupationPieData.map((entry, i) => (
                 <div key={i} className="flex items-center gap-1.5 text-xs">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.fill }} />
-                  <span className="text-zinc-400">{entry.name}</span>
+                  <span className="text-muted-foreground">{entry.name}</span>
                 </div>
               ))}
             </div>
@@ -470,10 +470,10 @@ function OcupacaoTab() {
       </div>
 
       {/* Education & Occupation insight */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base font-display-gothic">Educação e Ocupação — Análise Cruzada</CardTitle>
-          <CardDescription className="text-zinc-500 text-xs">Relação entre frequência escolar e ocupação por região</CardDescription>
+          <CardTitle className="text-foreground text-base font-display-gothic">Educação e Ocupação — Análise Cruzada</CardTitle>
+          <CardDescription className="text-muted-foreground text-xs">Relação entre frequência escolar e ocupação por região</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -487,33 +487,33 @@ function OcupacaoTab() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-zinc-900 rounded-lg p-4 border border-zinc-800"
+                  className="bg-card rounded-lg p-4 border border-border"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-white font-medium text-sm">{d.regiao}</span>
-                    <Badge variant="outline" className="text-[10px] border-zinc-700 text-zinc-400">Censo 2022</Badge>
+                    <span className="text-foreground font-medium text-sm">{d.regiao}</span>
+                    <Badge variant="outline" className="text-[10px] border-input text-muted-foreground">Censo 2022</Badge>
                   </div>
                   <div className="space-y-2.5">
                     <div>
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-zinc-500">Freq. Superior (18-24)</span>
+                        <span className="text-muted-foreground">Freq. Superior (18-24)</span>
                         <span className="text-emerald-400">{superiorFreq}%</span>
                       </div>
-                      <Progress value={superiorFreq} className="h-1.5 bg-zinc-800" />
+                      <Progress value={superiorFreq} className="h-1.5 bg-secondary" />
                     </div>
                     <div>
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-zinc-500">Taxa de Ocupação</span>
+                        <span className="text-muted-foreground">Taxa de Ocupação</span>
                         <span className="text-sky-400">{ocupacao}%</span>
                       </div>
-                      <Progress value={ocupacao} className="h-1.5 bg-zinc-800" />
+                      <Progress value={ocupacao} className="h-1.5 bg-secondary" />
                     </div>
                     <div>
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-zinc-500">Ocupação Feminina</span>
+                        <span className="text-muted-foreground">Ocupação Feminina</span>
                         <span className="text-rose-400">{Math.round(d.mulheres.ocupadas)}%</span>
                       </div>
-                      <Progress value={Math.round(d.mulheres.ocupadas)} className="h-1.5 bg-zinc-800" />
+                      <Progress value={Math.round(d.mulheres.ocupadas)} className="h-1.5 bg-secondary" />
                     </div>
                   </div>
                 </motion.div>
@@ -524,37 +524,37 @@ function OcupacaoTab() {
       </Card>
 
       {/* Data Table */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Situação de Ocupação</CardTitle>
-          <CardDescription className="text-zinc-500 text-xs">Pessoas de 14+ anos por região e sexo — Censo 2022</CardDescription>
+          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Situação de Ocupação</CardTitle>
+          <CardDescription className="text-muted-foreground text-xs">Pessoas de 14+ anos por região e sexo — Censo 2022</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-zinc-800">
-                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                <tr className="border-b border-border">
+                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
                   <th className="text-center py-2 px-1 text-emerald-400 font-medium" colSpan={2}>Total</th>
                   <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={2}>Homens</th>
                   <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={2}>Mulheres</th>
                 </tr>
-                <tr className="border-b border-zinc-800">
+                <tr className="border-b border-border">
                   {['Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas'].map((h, i) => (
-                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{h}</th>
+                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {situacaoOcupacao.map((row, ri) => (
-                  <tr key={ri} className="border-b border-zinc-900 hover:bg-zinc-900/30">
-                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.ocupadas.toFixed(1)}%</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.naoOcupadas.toFixed(1)}%</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.ocupadas.toFixed(1)}%</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.naoOcupadas.toFixed(1)}%</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.ocupadas.toFixed(1)}%</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.naoOcupadas.toFixed(1)}%</td>
+                  <tr key={ri} className="border-b border-zinc-900 hover:bg-card/30">
+                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.ocupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.naoOcupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.ocupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.naoOcupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.ocupadas.toFixed(1)}%</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.naoOcupadas.toFixed(1)}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -609,10 +609,10 @@ function TransporteTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Meio de Transporte por Cor/Raça — Brasil</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Mulheres de 10+ anos ocupadas — Censo 2022</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Meio de Transporte por Cor/Raça — Brasil</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Mulheres de 10+ anos ocupadas — Censo 2022</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={340}>
@@ -630,10 +630,10 @@ function TransporteTab() {
           </CardContent>
         </Card>
 
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Gap Racial no Transporte — Brasil</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Diferença Preta/Parda - Branca (p.p.)</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Gap Racial no Transporte — Brasil</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Diferença Preta/Parda - Branca (p.p.)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={340}>
@@ -655,10 +655,10 @@ function TransporteTab() {
       </div>
 
       {/* Regional comparison */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base font-display-gothic">Desigualdade Regional no Acesso a Automóvel</CardTitle>
-          <CardDescription className="text-zinc-500 text-xs">% de mulheres ocupadas que usam automóvel por cor/raça e região</CardDescription>
+          <CardTitle className="text-foreground text-base font-display-gothic">Desigualdade Regional no Acesso a Automóvel</CardTitle>
+          <CardDescription className="text-muted-foreground text-xs">% de mulheres ocupadas que usam automóvel por cor/raça e região</CardDescription>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -677,39 +677,39 @@ function TransporteTab() {
       </Card>
 
       {/* Data Table */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Meio de Transporte</CardTitle>
-          <CardDescription className="text-zinc-500 text-xs">Mulheres de 10+ anos ocupadas por cor/raça e região — Censo 2022</CardDescription>
+          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Meio de Transporte</CardTitle>
+          <CardDescription className="text-muted-foreground text-xs">Mulheres de 10+ anos ocupadas por cor/raça e região — Censo 2022</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-zinc-800">
-                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                <tr className="border-b border-border">
+                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
                   <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={6}>Branca</th>
                   <th className="text-center py-2 px-1 text-red-400 font-medium" colSpan={6}>Preta/Parda</th>
                   <th className="text-center py-2 px-1 text-amber-400 font-medium" colSpan={6}>Indígena</th>
                 </tr>
-                <tr className="border-b border-zinc-800">
+                <tr className="border-b border-border">
                   {transportLabels.concat(transportLabels).concat(transportLabels).map((l, i) => (
-                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{l}</th>
+                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{l}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {meioTransporte.map((row, ri) => (
-                  <tr key={ri} className="border-b border-zinc-900 hover:bg-zinc-900/30">
-                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
+                  <tr key={ri} className="border-b border-zinc-900 hover:bg-card/30">
+                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
                     {transportKeys.map(key => (
-                      <td key={`b-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.branca[key].toFixed(1)}</td>
+                      <td key={`b-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.branca[key].toFixed(1)}</td>
                     ))}
                     {transportKeys.map(key => (
-                      <td key={`p-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.pretaParda[key].toFixed(1)}</td>
+                      <td key={`p-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.pretaParda[key].toFixed(1)}</td>
                     ))}
                     {transportKeys.map(key => (
-                      <td key={`i-${key}`} className="text-center py-1.5 px-1 text-zinc-300">{row.indigena[key].toFixed(1)}</td>
+                      <td key={`i-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.indigena[key].toFixed(1)}</td>
                     ))}
                   </tr>
                 ))}
@@ -750,10 +750,10 @@ function LocalTrabalhoTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Local de Trabalho por Região</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Pessoas de 10+ anos ocupadas — Censo 2022</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Local de Trabalho por Região</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Pessoas de 10+ anos ocupadas — Censo 2022</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
@@ -771,10 +771,10 @@ function LocalTrabalhoTab() {
           </CardContent>
         </Card>
 
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-background border-border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white text-base font-display-gothic">Home Office por Gênero e Região</CardTitle>
-            <CardDescription className="text-zinc-500 text-xs">Trabalho no domicílio de residência (%)</CardDescription>
+            <CardTitle className="text-foreground text-base font-display-gothic">Home Office por Gênero e Região</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Trabalho no domicílio de residência (%)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
@@ -793,40 +793,40 @@ function LocalTrabalhoTab() {
       </div>
 
       {/* Data Table */}
-      <Card className="bg-zinc-950 border-zinc-800">
+      <Card className="bg-background border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-white text-base font-display-gothic">Tabela Completa — Local de Trabalho</CardTitle>
-          <CardDescription className="text-zinc-500 text-xs">Pessoas de 10+ anos ocupadas por região e sexo — Censo 2022</CardDescription>
+          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Local de Trabalho</CardTitle>
+          <CardDescription className="text-muted-foreground text-xs">Pessoas de 10+ anos ocupadas por região e sexo — Censo 2022</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-zinc-800">
-                  <th className="text-left py-2 px-2 text-zinc-400 font-medium" rowSpan={2}>Região</th>
+                <tr className="border-b border-border">
+                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
                   <th className="text-center py-2 px-1 text-purple-400 font-medium" colSpan={3}>Total</th>
                   <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={3}>Homens</th>
                   <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={3}>Mulheres</th>
                 </tr>
-                <tr className="border-b border-zinc-800">
+                <tr className="border-b border-border">
                   {['No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município'].map((h, i) => (
-                    <th key={i} className="text-center py-1 px-1 text-zinc-500 font-normal">{h}</th>
+                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {localTrabalho.map((row, ri) => (
-                  <tr key={ri} className="border-b border-zinc-900 hover:bg-zinc-900/30">
-                    <td className="py-1.5 px-2 text-white font-medium">{row.regiao}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.noDomicilio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.foraDomicilio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.total.outroMunicipio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.noDomicilio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.foraDomicilio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.homens.outroMunicipio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.noDomicilio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.foraDomicilio.toFixed(1)}</td>
-                    <td className="text-center py-1.5 px-1 text-zinc-300">{row.mulheres.outroMunicipio.toFixed(1)}</td>
+                  <tr key={ri} className="border-b border-zinc-900 hover:bg-card/30">
+                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.noDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.foraDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.outroMunicipio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.noDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.foraDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.outroMunicipio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.noDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.foraDomicilio.toFixed(1)}</td>
+                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.outroMunicipio.toFixed(1)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -843,7 +843,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('educacao');
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <Navbar />
 
@@ -858,11 +858,11 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight font-display-gothic">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight font-display-gothic">
               Educação & Sociedade
             </h2>
-            <p className="text-zinc-400 mt-2 max-w-2xl text-sm leading-relaxed">
-              Análise interativa dos dados do <span className="text-white font-medium">Censo Demográfico 2022</span> do IBGE,
+            <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-relaxed">
+              Análise interativa dos dados do <span className="text-foreground font-medium">Censo Demográfico 2022</span> do IBGE,
               com foco na frequência escolar, situação de ocupação, meio de transporte e local de trabalho.
               Fonte: <span className="text-red-400">SIDRA/IBGE</span> — Tabelas 10056, 10253, 10329 e 8424.
             </p>
@@ -873,31 +873,31 @@ export default function Home() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-zinc-900 border border-zinc-800 p-1 h-auto gap-1">
+          <TabsList className="bg-card border border-border p-1 h-auto gap-1">
             <TabsTrigger
               value="educacao"
-              className="data-[state=active]:bg-red-900/30 data-[state=active]:text-red-300 data-[state=active]:border-red-800 text-zinc-400 text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-red-900/30 data-[state=active]:text-red-300 data-[state=active]:border-red-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <GraduationCap className="w-3.5 h-3.5 mr-1.5" />
               Frequência Escolar
             </TabsTrigger>
             <TabsTrigger
               value="ocupacao"
-              className="data-[state=active]:bg-sky-900/30 data-[state=active]:text-sky-300 data-[state=active]:border-sky-800 text-zinc-400 text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-sky-900/30 data-[state=active]:text-sky-300 data-[state=active]:border-sky-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <Users className="w-3.5 h-3.5 mr-1.5" />
               Ocupação
             </TabsTrigger>
             <TabsTrigger
               value="transporte"
-              className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-300 data-[state=active]:border-amber-800 text-zinc-400 text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-300 data-[state=active]:border-amber-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <Bus className="w-3.5 h-3.5 mr-1.5" />
               Transporte
             </TabsTrigger>
             <TabsTrigger
               value="local"
-              className="data-[state=active]:bg-purple-900/30 data-[state=active]:text-purple-300 data-[state=active]:border-purple-800 text-zinc-400 text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-purple-900/30 data-[state=active]:text-purple-300 data-[state=active]:border-purple-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <MapPin className="w-3.5 h-3.5 mr-1.5" />
               Local de Trabalho

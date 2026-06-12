@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useCountUp } from '@/hooks/useCountUp';
 
 // Default color if none provided
-const DEFAULT_COLOR = '#b91c1c';
+const DEFAULT_COLOR = 'var(--primary)';
 
 interface KPICardProps {
   title: string;
@@ -41,7 +41,7 @@ export default function KPICard({
       transition={{ duration: 0.5, delay }}
       whileHover={{ y: -4, scale: 1.01 }}
     >
-      <Card className="relative overflow-hidden bg-gothic-900 border-gothic-700/40 hover:border-gothic-600/60 hover:shadow-gothic-card-hover transition-all duration-300 group">
+      <Card className="relative overflow-hidden bg-card border-border hover:border-primary/30 hover:shadow-gothic-card-hover transition-all duration-300 group">
         {/* Subtle top accent line */}
         <div
           className="absolute top-0 left-0 right-0 h-0.5 opacity-60 group-hover:opacity-100 transition-opacity duration-300"
@@ -51,25 +51,24 @@ export default function KPICard({
         <CardContent className="p-4 sm:p-5">
           <div className="flex items-start justify-between gap-2">
             <div className="space-y-1.5 sm:space-y-2 min-w-0 flex-1">
-              <p className="text-[10px] sm:text-xs text-gothic-500 uppercase tracking-wider font-medium truncate">
+              <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-medium truncate">
                 {title}
               </p>
-              <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-mono-gothic number-glow">
+              <p className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight font-mono-gothic">
                 {prefix}<span ref={countRef}>0</span>{suffix}
               </p>
               <div className="flex items-center gap-1.5">
-                {trend === 'up' && <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 shrink-0" />}
-                {trend === 'down' && <ArrowDownRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-400 shrink-0" />}
-                {trend === 'neutral' && <Minus className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gothic-500 shrink-0" />}
-                <span className="text-[10px] sm:text-xs text-gothic-500 truncate">{subtitle}</span>
+                {trend === 'up' && <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 shrink-0" />}
+                {trend === 'down' && <ArrowDownRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-500 shrink-0" />}
+                {trend === 'neutral' && <Minus className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground shrink-0" />}
+                <span className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtitle}</span>
               </div>
             </div>
             <div
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110"
               style={{
-                backgroundColor: `${color}15`,
+                backgroundColor: `color-mix(in srgb, ${color} 12%, transparent)`,
                 color,
-                boxShadow: `0 0 0 0 ${color}00`,
               }}
             >
               <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
