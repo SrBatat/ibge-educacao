@@ -38,9 +38,9 @@ export default function LoginPage() {
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative w-full max-w-md">
         <div className="text-center mb-10">
           <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.8 }} className="text-4xl font-bold text-foreground tracking-widest uppercase font-display-gothic">
-            IBGE
+            ConectaEnsino
           </motion.h1>
-          <p className="text-xs tracking-[0.4em] text-muted-foreground mt-1 uppercase font-display-gothic">Portal Analítico</p>
+          <p className="text-xs tracking-[0.4em] text-muted-foreground mt-1 uppercase font-display-gothic">Plataforma Educacional</p>
           <div className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mt-4" />
         </div>
         <div className="bg-card border border-border rounded-xl p-8 shadow-gothic-card">

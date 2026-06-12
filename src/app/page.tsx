@@ -28,7 +28,7 @@ import {
   type FrequenciaEscolar
 } from '@/lib/ibge-data';
 
-// --- Color Palette (IBGE Gothic) ---
+// --- Color Palette (ConectaEnsino) ---
 const COLORS = {
   crimson: '#b91c1c',
   crimsonLight: '#ef4444',

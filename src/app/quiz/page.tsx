@@ -67,7 +67,7 @@ export default function QuizLobby() {
           </Link>
           <div className="flex items-center gap-3">
             <Skull className="w-6 h-6 text-primary" />
-            <h1 className="font-display-gothic text-xl text-foreground tracking-wide">Desafio IBGE</h1>
+            <h1 className="font-display-gothic text-xl text-foreground tracking-wide">Desafio ConectaEnsino</h1>
           </div>
         </div>
       </header>
@@ -85,7 +85,7 @@ export default function QuizLobby() {
               className="text-center md:text-left"
             >
               <h2 className="font-display-gothic text-4xl md:text-5xl text-foreground tracking-wider mb-2">
-                Desafio IBGE
+                Desafio ConectaEnsino
               </h2>
               <p className="text-muted-foreground text-lg">
                 Teste seus conhecimentos sobre os dados do Censo Demográfico 2022

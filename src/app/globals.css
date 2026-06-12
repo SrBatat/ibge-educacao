@@ -378,7 +378,7 @@
   }
 }
 
-/* === IBGE GOTHIC — Custom Design Tokens === */
+/* === ConectaEnsino — Custom Design Tokens === */
 :root {
   --font-display: var(--font-cinzel), 'Cormorant Garamond', Georgia, serif;
   --font-jetbrains: var(--font-jetbrains-mono), 'Fira Code', monospace;

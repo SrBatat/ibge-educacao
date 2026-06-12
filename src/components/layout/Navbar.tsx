@@ -44,11 +44,10 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2.5 group" onClick={() => setMobileOpen(false)}>
             {/* Icon */}
             <div className="w-8 h-8 rounded-md bg-primary/20 border border-primary/30 flex items-center justify-center group-hover:border-primary/50 transition-all duration-300">
-              <span className="font-display-gothic text-xs font-bold text-primary tracking-widest">I</span>
+              <span className="font-display-gothic text-xs font-bold text-primary tracking-widest">C</span>
             </div>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-display-gothic text-lg font-bold text-foreground tracking-widest group-hover:text-primary transition-colors">IBGE</span>
-              <span className="hidden sm:inline text-[10px] text-muted-foreground tracking-[0.3em] uppercase font-display-gothic">Portal</span>
+              <span className="font-display-gothic text-lg font-bold text-foreground tracking-widest group-hover:text-primary transition-colors">ConectaEnsino</span>
             </div>
           </Link>
 

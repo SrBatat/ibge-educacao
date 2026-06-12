@@ -1,5 +1,5 @@
 // ====================================================================
-// PORTAL IBGE — DADOS OFICIAIS DO CENSO 2022
+// CONECTAENSINO — DADOS OFICIAIS DO CENSO 2022
 // Fonte: IBGE - Instituto Brasileiro de Geografia e Estatística
 // Tabelas SIDRA: 10056, 10253, 10329, 8424
 // ====================================================================

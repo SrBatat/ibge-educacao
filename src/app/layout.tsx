@@ -30,16 +30,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portal IBGE — Educação & Sociedade",
-  description: "Análise interativa dos dados do Censo Demográfico 2022 do IBGE, com foco na frequência escolar, situação de ocupação, meio de transporte e local de trabalho.",
-  keywords: ["IBGE", "Censo 2022", "Educação", "Frequência Escolar", "Ocupação", "Transporte", "SIDRA"],
-  authors: [{ name: "Portal IBGE" }],
+  title: "ConectaEnsino — Educação & Sociedade",
+  description: "Análise interativa dos dados do Censo Demográfico 2022, com foco na frequência escolar, situação de ocupação, meio de transporte e local de trabalho.",
+  keywords: ["ConectaEnsino", "Censo 2022", "Educação", "Frequência Escolar", "Ocupação", "Transporte", "SIDRA"],
+  authors: [{ name: "ConectaEnsino" }],
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Portal IBGE — Educação & Sociedade",
-    description: "Dados do Censo 2022 do IBGE com foco em educação",
+    title: "ConectaEnsino — Educação & Sociedade",
+    description: "Dados do Censo 2022 com foco em educação — ConectaEnsino",
     type: "website",
   },
 };

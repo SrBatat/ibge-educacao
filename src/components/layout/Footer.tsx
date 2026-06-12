@@ -46,15 +46,14 @@ export default function Footer() {
           <div className="lg:max-w-xs shrink-0">
             <div className="flex items-center gap-2.5 mb-3">
               <div className="w-8 h-8 rounded-md bg-primary/20 border border-primary/30 flex items-center justify-center">
-                <span className="font-display-gothic text-xs font-bold text-primary tracking-widest">I</span>
+                <span className="font-display-gothic text-xs font-bold text-primary tracking-widest">C</span>
               </div>
               <div>
-                <span className="font-display-gothic text-sm font-semibold text-foreground tracking-widest">IBGE</span>
-                <span className="text-[10px] text-muted-foreground tracking-[0.2em] uppercase ml-2 font-display-gothic">Portal</span>
+                <span className="font-display-gothic text-sm font-semibold text-foreground tracking-widest">ConectaEnsino</span>
               </div>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Analise interativa dos dados do Censo Demografico 2022 do IBGE, com foco na educacao,
+              Analise interativa dos dados do Censo Demografico 2022, com foco na educacao,
               ocupacao, transporte e local de trabalho da populacao brasileira.
             </p>
             {/* Stat badges */}
@@ -107,7 +106,7 @@ export default function Footer() {
             <span>Fonte: IBGE/SIDRA — Censo Demografico 2022</span>
           </div>
           <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-            <span>Portal Educacional</span>
+            <span>ConectaEnsino</span>
             <span className="text-border">|</span>
             <span>{currentYear}</span>
           </div>

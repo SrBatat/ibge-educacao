@@ -39,7 +39,7 @@ export default function RegisterPage() {
       </div>
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative w-full max-w-md">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-foreground tracking-widest uppercase font-display-gothic">IBGE</h1>
+          <h1 className="text-4xl font-bold text-foreground tracking-widest uppercase font-display-gothic">ConectaEnsino</h1>
           <p className="text-xs tracking-[0.4em] text-muted-foreground mt-1 uppercase font-display-gothic">Criar Conta</p>
           <div className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mt-4" />
         </div>

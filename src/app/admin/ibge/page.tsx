@@ -168,8 +168,8 @@ export default function AdminIbge() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div>
-          <h1 className="text-2xl font-display-gothic text-foreground">Banco IBGE</h1>
-          <p className="text-sm text-muted-foreground mt-1">Gerenciamento de dados IBGE</p>
+          <h1 className="text-2xl font-display-gothic text-foreground">Base de Dados</h1>
+          <p className="text-sm text-muted-foreground mt-1">Gerenciamento de dados</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -243,7 +243,7 @@ export default function AdminIbge() {
             >
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-lg font-display-gothic text-foreground">
-                  {editingId ? 'Editar Dado' : 'Novo Dado IBGE'}
+                  {editingId ? 'Editar Dado' : 'Novo Dado'}
                 </h2>
                 <Button
                   variant="ghost"

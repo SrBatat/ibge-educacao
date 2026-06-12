@@ -14,7 +14,7 @@ if (supabaseUrl && supabaseAnonKey) {
       autoRefreshToken: true,
       detectSessionInUrl: true,
       storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-      storageKey: 'ibge-gothic-auth',
+      storageKey: 'conecta-ensino-auth',
     },
   });
 } else {
