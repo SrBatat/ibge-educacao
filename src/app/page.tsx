@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen, GraduationCap, Users, TrendingUp, MapPin, Bus,
-  ChevronDown, Info, BarChart3, PieChart, Activity, Globe,
-  ArrowUpRight, ArrowDownRight, Minus, Search, Filter
+  ChevronDown, Info, BarChart3, PieChart, Activity, Globe
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -21,7 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
+import KPICard from '@/components/ui/kpi-card';
 import {
   frequenciaEscolar, situacaoOcupacao, localTrabalho, meioTransporte,
   regioes, estadosPorRegiao, ageGroups, ageGroupKeys, transportLabels, transportKeys,
@@ -67,86 +66,7 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   );
 }
 
-// --- useCountUp Hook ---
-function useCountUp(end: number, duration = 1500) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const hasAnimated = useRef(false);
-
-  const animate = useCallback(() => {
-    if (!ref.current || hasAnimated.current) return;
-    hasAnimated.current = true;
-    const start = 0;
-    const startTime = performance.now();
-
-    const step = (currentTime: number) => {
-      if (!ref.current) return;
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = start + (end - start) * eased;
-      ref.current.textContent = current.toFixed(current % 1 === 0 && end % 1 === 0 ? 0 : 1);
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
-    };
-
-    requestAnimationFrame(step);
-  }, [end, duration]);
-
-  useEffect(() => {
-    animate();
-  }, [animate]);
-
-  return ref;
-}
-
-// --- KPI Card Component ---
-function KPICard({ title, value, subtitle, icon: Icon, trend, color = COLORS.crimson }: {
-  title: string; value: string; subtitle: string; icon: React.ElementType;
-  trend?: 'up' | 'down' | 'neutral'; color?: string;
-}) {
-  // Parse the numeric part from the value string
-  const numericMatch = value.match(/[\d]+[,.]?[\d]*/);
-  const numericValue = numericMatch ? parseFloat(numericMatch[0].replace(',', '.')) : 0;
-  const prefix = numericMatch ? value.substring(0, value.indexOf(numericMatch[0])) : '';
-  const suffix = numericMatch ? value.substring(value.indexOf(numericMatch[0]) + numericMatch[0].length) : value;
-  const countRef = useCountUp(numericValue);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -2 }}
-    >
-      <Card className="bg-zinc-950 border-zinc-800 hover:border-zinc-700 hover:shadow-gothic-card-hover transition-all duration-300 group">
-        <CardContent className="p-5">
-          <div className="flex items-start justify-between">
-            <div className="space-y-2">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider font-medium">{title}</p>
-              <p className="text-3xl font-bold text-white tracking-tight">
-                {prefix}<span ref={countRef}>0</span>{suffix}
-              </p>
-              <div className="flex items-center gap-1.5">
-                {trend === 'up' && <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />}
-                {trend === 'down' && <ArrowDownRight className="w-3.5 h-3.5 text-red-400" />}
-                {trend === 'neutral' && <Minus className="w-3.5 h-3.5 text-zinc-500" />}
-                <span className="text-xs text-zinc-500">{subtitle}</span>
-              </div>
-            </div>
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-              style={{ backgroundColor: `${color}20`, color }}
-            >
-              <Icon className="w-5 h-5" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-}
+// --- KPICard and useCountUp are now imported from @/components/ui/kpi-card and @/hooks/useCountUp ---
 
 // --- Section Header ---
 function SectionHeader({ title, description, icon: Icon }: { title: string; description: string; icon: React.ElementType }) {
@@ -1001,8 +921,6 @@ export default function Home() {
         </Tabs>
       </main>
 
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

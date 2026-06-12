@@ -87,6 +87,10 @@ const config: Config = {
                         'progress-fill': 'progressFill 1s ease-out forwards',
                         'number-count': 'numberCount 1.5s ease-out forwards',
                         'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'border-glow': 'borderGlow 3s ease-in-out infinite',
+                        'number-glow': 'numberGlow 4s ease-in-out infinite',
                 },
                 keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
@@ -97,6 +101,10 @@ const config: Config = {
                         progressFill: { '0%': { width: '0%' }, '100%': { width: 'var(--progress-width)' } },
                         glowPulse: { '0%, 100%': { opacity: '0.6' }, '50%': { opacity: '1' } },
                         numberCount: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+                        float: { '0%, 100%': { transform: 'translateY(0px) rotate(0deg)', opacity: '0.3' }, '50%': { transform: 'translateY(-20px) rotate(180deg)', opacity: '0.7' } },
+                        borderGlow: { '0%, 100%': { borderColor: 'rgba(127, 29, 29, 0.2)' }, '50%': { borderColor: 'rgba(127, 29, 29, 0.5)' } },
+                        numberGlow: { '0%, 100%': { textShadow: '0 0 8px rgba(185, 28, 28, 0)' }, '50%': { textShadow: '0 0 12px rgba(185, 28, 28, 0.4)' } },
                 },
                 boxShadow: {
                         'gothic-card': '0 4px 24px rgba(0, 0, 0, 0.6)',
