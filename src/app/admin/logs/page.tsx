@@ -19,11 +19,11 @@ interface LogEntry {
 }
 
 const ACAO_COLORS: Record<string, string> = {
-  LOGIN: 'bg-emerald-950/50 text-emerald-400 border-emerald-800',
-  LOGOUT: 'bg-zinc-800/50 text-zinc-400 border-zinc-700',
-  QUIZ_START: 'bg-blue-950/50 text-blue-400 border-blue-800',
-  QUIZ_FINISH: 'bg-purple-950/50 text-purple-400 border-purple-800',
-  ADMIN_ACTION: 'bg-red-950/50 text-red-400 border-red-800',
+  LOGIN: 'bg-emerald-100/50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 border-emerald-400 dark:border-emerald-800',
+  LOGOUT: 'bg-muted text-muted-foreground border-border',
+  QUIZ_START: 'bg-blue-100/50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 border-blue-400 dark:border-blue-800',
+  QUIZ_FINISH: 'bg-purple-100/50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-400 border-purple-400 dark:border-purple-800',
+  ADMIN_ACTION: 'bg-red-100/50 dark:bg-red-950/50 text-red-700 dark:text-red-400 border-red-400 dark:border-red-800',
 };
 
 export default function AdminLogsPage() {

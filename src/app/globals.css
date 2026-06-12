@@ -117,6 +117,28 @@
   --sidebar-accent-foreground: #e4e4e7;
   --sidebar-border: rgba(255, 255, 255, 0.10);
   --sidebar-ring: #b91c1c;
+  /* Chart-specific tokens */
+  --chart-grid: #27272a;
+  --chart-axis: #3f3f46;
+  --chart-tick: #a1a1aa;
+  --chart-reference: #52526a;
+  --hero-gradient-from: rgba(127, 29, 29, 0.2);
+  --hero-gradient-via: #0a0a0c;
+  --hero-gradient-to: #0a0a0c;
+  --hero-glow-1: rgba(127, 29, 29, 0.1);
+  --hero-glow-2: rgba(88, 28, 135, 0.1);
+  --tab-active-edu-bg: rgba(127, 29, 29, 0.3);
+  --tab-active-edu-text: #fca5a5;
+  --tab-active-edu-border: #991b1b;
+  --tab-active-ocup-bg: rgba(7, 89, 133, 0.3);
+  --tab-active-ocup-text: #7dd3fc;
+  --tab-active-ocup-border: #075985;
+  --tab-active-trans-bg: rgba(120, 53, 15, 0.3);
+  --tab-active-trans-text: #fcd34d;
+  --tab-active-trans-border: #92400e;
+  --tab-active-local-bg: rgba(88, 28, 135, 0.3);
+  --tab-active-local-text: #c4b5fd;
+  --tab-active-local-border: #6b21a8;
 }
 
 /* --- Theme: Light Clean --- */
@@ -152,6 +174,28 @@
   --sidebar-accent-foreground: #18181b;
   --sidebar-border: #e4e4e7;
   --sidebar-ring: #991b1b;
+  /* Chart-specific tokens */
+  --chart-grid: #e4e4e7;
+  --chart-axis: #d4d4d8;
+  --chart-tick: #71717a;
+  --chart-reference: #a1a1aa;
+  --hero-gradient-from: rgba(153, 27, 27, 0.05);
+  --hero-gradient-via: #ffffff;
+  --hero-gradient-to: #fafafa;
+  --hero-glow-1: rgba(153, 27, 27, 0.06);
+  --hero-glow-2: rgba(124, 58, 237, 0.04);
+  --tab-active-edu-bg: rgba(153, 27, 27, 0.1);
+  --tab-active-edu-text: #991b1b;
+  --tab-active-edu-border: #fca5a5;
+  --tab-active-ocup-bg: rgba(2, 132, 199, 0.1);
+  --tab-active-ocup-text: #075985;
+  --tab-active-ocup-border: #7dd3fc;
+  --tab-active-trans-bg: rgba(217, 119, 6, 0.1);
+  --tab-active-trans-text: #92400e;
+  --tab-active-trans-border: #fcd34d;
+  --tab-active-local-bg: rgba(124, 58, 237, 0.1);
+  --tab-active-local-text: #6b21a8;
+  --tab-active-local-border: #c4b5fd;
 }
 
 /* --- Theme: Midnight Blue --- */
@@ -187,6 +231,28 @@
   --sidebar-accent-foreground: #e2e8f0;
   --sidebar-border: rgba(148, 163, 184, 0.20);
   --sidebar-ring: #d97706;
+  /* Chart-specific tokens */
+  --chart-grid: rgba(148, 163, 184, 0.15);
+  --chart-axis: rgba(148, 163, 184, 0.25);
+  --chart-tick: #94a3b8;
+  --chart-reference: #475569;
+  --hero-gradient-from: rgba(217, 119, 6, 0.1);
+  --hero-gradient-via: #0f172a;
+  --hero-gradient-to: #0f172a;
+  --hero-glow-1: rgba(217, 119, 6, 0.08);
+  --hero-glow-2: rgba(2, 132, 199, 0.06);
+  --tab-active-edu-bg: rgba(127, 29, 29, 0.3);
+  --tab-active-edu-text: #fca5a5;
+  --tab-active-edu-border: #991b1b;
+  --tab-active-ocup-bg: rgba(7, 89, 133, 0.3);
+  --tab-active-ocup-text: #7dd3fc;
+  --tab-active-ocup-border: #075985;
+  --tab-active-trans-bg: rgba(120, 53, 15, 0.3);
+  --tab-active-trans-text: #fcd34d;
+  --tab-active-trans-border: #92400e;
+  --tab-active-local-bg: rgba(88, 28, 135, 0.3);
+  --tab-active-local-text: #c4b5fd;
+  --tab-active-local-border: #6b21a8;
 }
 
 /* --- Theme: Forest Dark --- */
@@ -222,6 +288,28 @@
   --sidebar-accent-foreground: #e2e8f0;
   --sidebar-border: rgba(134, 239, 172, 0.15);
   --sidebar-ring: #d97706;
+  /* Chart-specific tokens */
+  --chart-grid: rgba(134, 239, 172, 0.12);
+  --chart-axis: rgba(134, 239, 172, 0.2);
+  --chart-tick: #86efac;
+  --chart-reference: #166534;
+  --hero-gradient-from: rgba(217, 119, 6, 0.08);
+  --hero-gradient-via: #052e16;
+  --hero-gradient-to: #052e16;
+  --hero-glow-1: rgba(217, 119, 6, 0.06);
+  --hero-glow-2: rgba(2, 132, 199, 0.04);
+  --tab-active-edu-bg: rgba(127, 29, 29, 0.3);
+  --tab-active-edu-text: #fca5a5;
+  --tab-active-edu-border: #991b1b;
+  --tab-active-ocup-bg: rgba(7, 89, 133, 0.3);
+  --tab-active-ocup-text: #7dd3fc;
+  --tab-active-ocup-border: #075985;
+  --tab-active-trans-bg: rgba(120, 53, 15, 0.3);
+  --tab-active-trans-text: #fcd34d;
+  --tab-active-trans-border: #92400e;
+  --tab-active-local-bg: rgba(88, 28, 135, 0.3);
+  --tab-active-local-text: #c4b5fd;
+  --tab-active-local-border: #6b21a8;
 }
 
 /* --- Theme: Rose Light --- */
@@ -257,6 +345,28 @@
   --sidebar-accent-foreground: #881337;
   --sidebar-border: #fce7f3;
   --sidebar-ring: #e11d48;
+  /* Chart-specific tokens */
+  --chart-grid: #fce7f3;
+  --chart-axis: #fda4af;
+  --chart-tick: #9f1239;
+  --chart-reference: #fb7185;
+  --hero-gradient-from: rgba(225, 29, 72, 0.06);
+  --hero-gradient-via: #fdf2f8;
+  --hero-gradient-to: #fff1f2;
+  --hero-glow-1: rgba(225, 29, 72, 0.05);
+  --hero-glow-2: rgba(124, 58, 237, 0.03);
+  --tab-active-edu-bg: rgba(225, 29, 72, 0.12);
+  --tab-active-edu-text: #9f1239;
+  --tab-active-edu-border: #fda4af;
+  --tab-active-ocup-bg: rgba(2, 132, 199, 0.1);
+  --tab-active-ocup-text: #075985;
+  --tab-active-ocup-border: #7dd3fc;
+  --tab-active-trans-bg: rgba(217, 119, 6, 0.1);
+  --tab-active-trans-text: #92400e;
+  --tab-active-trans-border: #fcd34d;
+  --tab-active-local-bg: rgba(124, 58, 237, 0.1);
+  --tab-active-local-text: #6b21a8;
+  --tab-active-local-border: #c4b5fd;
 }
 
 @layer base {

@@ -78,9 +78,9 @@ function getCategoryStyle(category: ResultCategory) {
 }
 
 const positionStyles = [
-  { bg: 'bg-yellow-950/30', border: 'border-yellow-700/40', text: 'text-yellow-400', icon: '🥇' },
-  { bg: 'bg-zinc-800/50', border: 'border-zinc-600/40', text: 'text-zinc-300', icon: '🥈' },
-  { bg: 'bg-amber-950/30', border: 'border-amber-700/40', text: 'text-amber-600', icon: '🥉' },
+  { bg: 'bg-yellow-100/50 dark:bg-yellow-950/30', border: 'border-yellow-600/40 dark:border-yellow-700/40', text: 'text-yellow-700 dark:text-yellow-400', icon: '🥇' },
+  { bg: 'bg-muted', border: 'border-border', text: 'text-muted-foreground', icon: '🥈' },
+  { bg: 'bg-amber-100/50 dark:bg-amber-950/30', border: 'border-amber-600/40 dark:border-amber-700/40', text: 'text-amber-700 dark:text-amber-500', icon: '🥉' },
 ];
 
 function formatTime(seconds: number): string {

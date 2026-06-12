@@ -37,7 +37,7 @@ export default function ForbiddenPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.4 }}
-          className="text-2xl font-semibold text-white font-display-gothic"
+          className="text-2xl font-semibold text-foreground font-display-gothic"
         >
           Acesso Restrito
         </motion.h2>
@@ -65,7 +65,7 @@ export default function ForbiddenPage() {
             Voltar ao Dashboard
           </Button>
           <Button
-            className="bg-primary hover:bg-primary/90 text-white"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
             onClick={() => router.push('/login')}
           >
             Fazer Login

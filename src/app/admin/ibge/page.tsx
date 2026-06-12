@@ -206,7 +206,7 @@ export default function AdminIbge() {
           <SelectContent className="bg-card border-border">
             <SelectItem value="all" className="text-muted-foreground">Todas Categorias</SelectItem>
             {categorias.map((c) => (
-              <SelectItem key={c} value={c} className="text-white">{c}</SelectItem>
+              <SelectItem key={c} value={c} className="text-foreground">{c}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -218,7 +218,7 @@ export default function AdminIbge() {
           <SelectContent className="bg-card border-border">
             <SelectItem value="all" className="text-muted-foreground">Todas Regiões</SelectItem>
             {regioes.map((r) => (
-              <SelectItem key={r} value={r} className="text-white">{r}</SelectItem>
+              <SelectItem key={r} value={r} className="text-foreground">{r}</SelectItem>
             ))}
           </SelectContent>
         </Select>

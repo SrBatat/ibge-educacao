@@ -43,34 +43,34 @@ export default class ErrorBoundary extends React.Component<Props, State> {
           <div className="max-w-md w-full text-center space-y-6">
             {/* Error icon with glow */}
             <div className="relative inline-block">
-              <div className="absolute inset-0 bg-crimson-900/20 rounded-full blur-xl animate-glow-pulse" />
-              <div className="relative w-20 h-20 mx-auto rounded-full bg-gothic-900 border border-crimson-800/40 flex items-center justify-center">
-                <AlertTriangle className="w-9 h-9 text-crimson-300" />
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-glow-pulse" />
+              <div className="relative w-20 h-20 mx-auto rounded-full bg-card border border-border flex items-center justify-center">
+                <AlertTriangle className="w-9 h-9 text-primary" />
               </div>
             </div>
 
             {/* Title */}
             <div>
-              <h3 className="text-xl font-semibold text-white font-display-gothic tracking-wider">
+              <h3 className="text-xl font-semibold text-foreground font-display-gothic tracking-wider">
                 Algo deu errado
               </h3>
-              <p className="text-sm text-gothic-500 mt-2">
+              <p className="text-sm text-muted-foreground mt-2">
                 Ocorreu um erro inesperado ao processar esta pagina. Tente recarregar ou volte ao inicio.
               </p>
             </div>
 
             {/* Error details (dev only) */}
             {isDev && this.state.error && (
-              <div className="bg-gothic-900 border border-gothic-700/40 rounded-lg p-4 text-left">
+              <div className="bg-card border border-border rounded-lg p-4 text-left">
                 <div className="flex items-center gap-2 mb-2">
-                  <Bug size={12} className="text-crimson-300" />
-                  <span className="text-[10px] text-crimson-300 uppercase tracking-wider font-semibold">Detalhes do Erro</span>
+                  <Bug size={12} className="text-primary" />
+                  <span className="text-[10px] text-primary uppercase tracking-wider font-semibold">Detalhes do Erro</span>
                 </div>
-                <pre className="text-[11px] text-gothic-400 font-mono-gothic overflow-x-auto whitespace-pre-wrap break-all">
+                <pre className="text-[11px] text-muted-foreground font-mono-gothic overflow-x-auto whitespace-pre-wrap break-all">
                   {errorMessage}
                 </pre>
                 {this.state.errorInfo?.componentStack && (
-                  <pre className="text-[10px] text-gothic-600 font-mono-gothic mt-2 overflow-x-auto whitespace-pre-wrap">
+                  <pre className="text-[10px] text-muted-foreground/60 font-mono-gothic mt-2 overflow-x-auto whitespace-pre-wrap">
                     {this.state.errorInfo.componentStack}
                   </pre>
                 )}
@@ -81,12 +81,12 @@ export default class ErrorBoundary extends React.Component<Props, State> {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button
                 onClick={() => this.setState({ hasError: false, error: undefined, errorInfo: undefined })}
-                className="bg-crimson-700 hover:bg-crimson-500 text-white gap-2 w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 w-full sm:w-auto"
               >
                 <RefreshCw size={14} /> Tentar novamente
               </Button>
               <Link href="/" className="w-full sm:w-auto">
-                <Button variant="outline" className="border-gothic-700 text-gothic-400 hover:text-white hover:bg-gothic-900 gap-2 w-full">
+                <Button variant="outline" className="border-border text-muted-foreground hover:text-foreground hover:bg-card gap-2 w-full">
                   <Home size={14} /> Voltar ao inicio
                 </Button>
               </Link>

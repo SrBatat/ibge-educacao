@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useChartTheme } from '@/hooks/useChartTheme';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen, GraduationCap, Users, TrendingUp, MapPin, Bus,
@@ -85,6 +86,7 @@ function SectionHeader({ title, description, icon: Icon }: { title: string; desc
 
 // --- Education Tab ---
 function EducacaoTab() {
+  const chartColors = useChartTheme();
   const [selectedRegiao, setSelectedRegiao] = useState<string>('Brasil');
   const [viewMode, setViewMode] = useState<'regioes' | 'estados'>('regioes');
 
@@ -219,9 +221,9 @@ function EducacaoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
               <BarChart data={barChartData} barGap={4}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} domain={[0, 100]} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} domain={[0, 100]} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
                 <Bar dataKey="Homens" fill={COLORS.sky} radius={[4, 4, 0, 0]} maxBarSize={40} />
@@ -240,11 +242,11 @@ function EducacaoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
               <ComposedChart data={genderGapData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 9 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
-                <ReferenceLine y={0} stroke="#52526a" />
+                <ReferenceLine y={0} stroke={chartColors.reference} />
                 <Bar dataKey="gap" name="Gap (p.p.)" radius={[4, 4, 0, 0]} maxBarSize={30}>
                   {genderGapData.map((entry, index) => (
                     <Cell key={index} fill={entry.gap >= 0 ? COLORS.emerald : COLORS.crimson} />
@@ -266,9 +268,9 @@ function EducacaoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
               <RadarChart data={radarData}>
-                <PolarGrid stroke="#27272a" />
-                <PolarAngleAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 9 }} />
-                <PolarRadiusAxis tick={{ fill: '#52526a', fontSize: 8 }} domain={[0, 100]} />
+                <PolarGrid stroke={chartColors.grid} />
+                <PolarAngleAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} />
+                <PolarRadiusAxis tick={{ fill: chartColors.reference, fontSize: 8 }} domain={[0, 100]} />
                 {regioes.filter(r => r !== 'Brasil').map((regiao, i) => (
                   <Radar key={regiao} name={regiao} dataKey={regiao} stroke={CHART_COLORS[i]} fill={CHART_COLORS[i]} fillOpacity={0.1} />
                 ))}
@@ -287,9 +289,9 @@ function EducacaoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={regionalComparison} layout="vertical" barGap={2}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" horizontal={false} />
-                <XAxis type="number" tick={{ fill: '#a1a1aa', fontSize: 10 }} domain={[0, 100]} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis dataKey="name" type="category" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} width={90} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} horizontal={false} />
+                <XAxis type="number" tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 100]} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis dataKey="name" type="category" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} width={90} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
                 <Bar dataKey="Educação Infantil" fill={COLORS.purple} maxBarSize={12} radius={[0, 2, 2, 0]} />
@@ -326,9 +328,9 @@ function EducacaoTab() {
           {stateData.length > 0 ? (
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={stateData} barGap={2}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 9 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} domain={[0, 100]} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 100]} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
                 <Bar dataKey="0-3 anos" fill={COLORS.purple} maxBarSize={20} radius={[3, 3, 0, 0]} />
@@ -357,8 +359,8 @@ function EducacaoTab() {
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
-                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={6}>Homens</th>
-                  <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={6}>Mulheres</th>
+                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={6}>Homens</th>
+                  <th className="text-center py-2 px-1 text-rose-600 font-medium" colSpan={6}>Mulheres</th>
                 </tr>
                 <tr className="border-b border-border">
                   {ageGroups.concat(ageGroups).map((g, i) => (
@@ -368,7 +370,7 @@ function EducacaoTab() {
               </thead>
               <tbody>
                 {frequenciaEscolar.filter(d => regioes.includes(d.regiao)).map((row, ri) => (
-                  <tr key={ri} className={`border-b border-zinc-900 ${row.regiao === selectedRegiao ? 'bg-card/50' : 'hover:bg-card/30'}`}>
+                  <tr key={ri} className={`border-b border-border ${row.regiao === selectedRegiao ? 'bg-card/50' : 'hover:bg-card/30'}`}>
                     <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
                     {ageGroupKeys.map(key => (
                       <td key={`h-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.homens[key].toFixed(1)}</td>
@@ -406,6 +408,7 @@ const occupationPieData = brOcupacao
 
 // --- Occupation Tab ---
 function OcupacaoTab() {
+  const chartColors = useChartTheme();
 
   return (
     <div className="space-y-6">
@@ -427,9 +430,9 @@ function OcupacaoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={340}>
               <BarChart data={occupationChartData} barGap={2}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} domain={[0, 80]} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 80]} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
                 <Bar dataKey="Ocupadas (Homens)" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
@@ -497,21 +500,21 @@ function OcupacaoTab() {
                     <div>
                       <div className="flex justify-between text-xs mb-1">
                         <span className="text-muted-foreground">Freq. Superior (18-24)</span>
-                        <span className="text-emerald-400">{superiorFreq}%</span>
+                        <span className="text-emerald-600">{superiorFreq}%</span>
                       </div>
                       <Progress value={superiorFreq} className="h-1.5 bg-secondary" />
                     </div>
                     <div>
                       <div className="flex justify-between text-xs mb-1">
                         <span className="text-muted-foreground">Taxa de Ocupação</span>
-                        <span className="text-sky-400">{ocupacao}%</span>
+                        <span className="text-sky-600">{ocupacao}%</span>
                       </div>
                       <Progress value={ocupacao} className="h-1.5 bg-secondary" />
                     </div>
                     <div>
                       <div className="flex justify-between text-xs mb-1">
                         <span className="text-muted-foreground">Ocupação Feminina</span>
-                        <span className="text-rose-400">{Math.round(d.mulheres.ocupadas)}%</span>
+                        <span className="text-rose-600">{Math.round(d.mulheres.ocupadas)}%</span>
                       </div>
                       <Progress value={Math.round(d.mulheres.ocupadas)} className="h-1.5 bg-secondary" />
                     </div>
@@ -535,9 +538,9 @@ function OcupacaoTab() {
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
-                  <th className="text-center py-2 px-1 text-emerald-400 font-medium" colSpan={2}>Total</th>
-                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={2}>Homens</th>
-                  <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={2}>Mulheres</th>
+                  <th className="text-center py-2 px-1 text-emerald-600 font-medium" colSpan={2}>Total</th>
+                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={2}>Homens</th>
+                  <th className="text-center py-2 px-1 text-rose-600 font-medium" colSpan={2}>Mulheres</th>
                 </tr>
                 <tr className="border-b border-border">
                   {['Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas'].map((h, i) => (
@@ -547,7 +550,7 @@ function OcupacaoTab() {
               </thead>
               <tbody>
                 {situacaoOcupacao.map((row, ri) => (
-                  <tr key={ri} className="border-b border-zinc-900 hover:bg-card/30">
+                  <tr key={ri} className="border-b border-border hover:bg-card/30">
                     <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
                     <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.ocupadas.toFixed(1)}%</td>
                     <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.naoOcupadas.toFixed(1)}%</td>
@@ -597,6 +600,7 @@ const racialGapData = brTransport
 
 // --- Transport Tab ---
 function TransporteTab() {
+  const chartColors = useChartTheme();
 
   return (
     <div className="space-y-6">
@@ -617,9 +621,9 @@ function TransporteTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={340}>
               <BarChart data={transportChartData} barGap={2}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 9 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
                 <Bar dataKey="Branca" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
@@ -638,11 +642,11 @@ function TransporteTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={340}>
               <ComposedChart data={racialGapData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
-                <ReferenceLine y={0} stroke="#52526a" />
+                <ReferenceLine y={0} stroke={chartColors.reference} />
                 <Bar dataKey="gap" name="Gap (p.p.)" radius={[4, 4, 0, 0]} maxBarSize={35}>
                   {racialGapData.map((entry, index) => (
                     <Cell key={index} fill={entry.gap >= 0 ? COLORS.crimson : COLORS.emerald} />
@@ -663,9 +667,9 @@ function TransporteTab() {
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={meioTransporte} barGap={2}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-              <XAxis dataKey="regiao" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
-              <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+              <XAxis dataKey="regiao" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+              <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Bar dataKey="branca.automovel" name="Branca" fill={COLORS.sky} maxBarSize={25} radius={[3, 3, 0, 0]} />
@@ -688,9 +692,9 @@ function TransporteTab() {
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
-                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={6}>Branca</th>
-                  <th className="text-center py-2 px-1 text-red-400 font-medium" colSpan={6}>Preta/Parda</th>
-                  <th className="text-center py-2 px-1 text-amber-400 font-medium" colSpan={6}>Indígena</th>
+                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={6}>Branca</th>
+                  <th className="text-center py-2 px-1 text-red-600 font-medium" colSpan={6}>Preta/Parda</th>
+                  <th className="text-center py-2 px-1 text-amber-600 font-medium" colSpan={6}>Indígena</th>
                 </tr>
                 <tr className="border-b border-border">
                   {transportLabels.concat(transportLabels).concat(transportLabels).map((l, i) => (
@@ -700,7 +704,7 @@ function TransporteTab() {
               </thead>
               <tbody>
                 {meioTransporte.map((row, ri) => (
-                  <tr key={ri} className="border-b border-zinc-900 hover:bg-card/30">
+                  <tr key={ri} className="border-b border-border hover:bg-card/30">
                     <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
                     {transportKeys.map(key => (
                       <td key={`b-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.branca[key].toFixed(1)}</td>
@@ -739,6 +743,7 @@ const workFromHomeData = localTrabalho.map(d => ({
 
 // --- Local de Trabalho Tab ---
 function LocalTrabalhoTab() {
+  const chartColors = useChartTheme();
 
   return (
     <div className="space-y-6">
@@ -758,9 +763,9 @@ function LocalTrabalhoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
               <BarChart data={localChartData} barGap={2}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} domain={[0, 80]} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 80]} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
                 <Bar dataKey="No domicílio" fill={COLORS.purple} maxBarSize={20} radius={[3, 3, 0, 0]} stackId="a" />
@@ -779,9 +784,9 @@ function LocalTrabalhoTab() {
           <CardContent>
             <ResponsiveContainer width="100%" height={320}>
               <BarChart data={workFromHomeData} barGap={4}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-                <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
-                <YAxis tick={{ fill: '#a1a1aa', fontSize: 10 }} axisLine={{ stroke: '#3f3f46' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
                 <Bar dataKey="Homens" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
@@ -805,8 +810,8 @@ function LocalTrabalhoTab() {
                 <tr className="border-b border-border">
                   <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
                   <th className="text-center py-2 px-1 text-purple-400 font-medium" colSpan={3}>Total</th>
-                  <th className="text-center py-2 px-1 text-sky-400 font-medium" colSpan={3}>Homens</th>
-                  <th className="text-center py-2 px-1 text-rose-400 font-medium" colSpan={3}>Mulheres</th>
+                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={3}>Homens</th>
+                  <th className="text-center py-2 px-1 text-rose-600 font-medium" colSpan={3}>Mulheres</th>
                 </tr>
                 <tr className="border-b border-border">
                   {['No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município'].map((h, i) => (
@@ -816,7 +821,7 @@ function LocalTrabalhoTab() {
               </thead>
               <tbody>
                 {localTrabalho.map((row, ri) => (
-                  <tr key={ri} className="border-b border-zinc-900 hover:bg-card/30">
+                  <tr key={ri} className="border-b border-border hover:bg-card/30">
                     <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
                     <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.noDomicilio.toFixed(1)}</td>
                     <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.foraDomicilio.toFixed(1)}</td>
@@ -849,9 +854,9 @@ export default function Home() {
 
       {/* Hero Banner */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-red-950/20 via-zinc-950 to-zinc-950" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-900/10 rounded-full blur-[120px]" />
-        <div className="absolute top-10 right-1/4 w-[300px] h-[200px] bg-purple-900/10 rounded-full blur-[80px]" />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, var(--hero-gradient-from), var(--hero-gradient-via), var(--hero-gradient-to))` }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px]" style={{ backgroundColor: 'var(--hero-glow-1)' }} />
+        <div className="absolute top-10 right-1/4 w-[300px] h-[200px] rounded-full blur-[80px]" style={{ backgroundColor: 'var(--hero-glow-2)' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -864,7 +869,7 @@ export default function Home() {
             <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-relaxed">
               Análise interativa dos dados do <span className="text-foreground font-medium">Censo Demográfico 2022</span> do IBGE,
               com foco na frequência escolar, situação de ocupação, meio de transporte e local de trabalho.
-              Fonte: <span className="text-red-400">SIDRA/IBGE</span> — Tabelas 10056, 10253, 10329 e 8424.
+              Fonte: <span className="text-primary">SIDRA/IBGE</span> — Tabelas 10056, 10253, 10329 e 8424.
             </p>
           </motion.div>
         </div>
@@ -876,28 +881,28 @@ export default function Home() {
           <TabsList className="bg-card border border-border p-1 h-auto gap-1">
             <TabsTrigger
               value="educacao"
-              className="data-[state=active]:bg-red-900/30 data-[state=active]:text-red-300 data-[state=active]:border-red-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-[var(--tab-active-edu-bg)] data-[state=active]:text-[var(--tab-active-edu-text)] data-[state=active]:border-[var(--tab-active-edu-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <GraduationCap className="w-3.5 h-3.5 mr-1.5" />
               Frequência Escolar
             </TabsTrigger>
             <TabsTrigger
               value="ocupacao"
-              className="data-[state=active]:bg-sky-900/30 data-[state=active]:text-sky-300 data-[state=active]:border-sky-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-[var(--tab-active-ocup-bg)] data-[state=active]:text-[var(--tab-active-ocup-text)] data-[state=active]:border-[var(--tab-active-ocup-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <Users className="w-3.5 h-3.5 mr-1.5" />
               Ocupação
             </TabsTrigger>
             <TabsTrigger
               value="transporte"
-              className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-300 data-[state=active]:border-amber-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-[var(--tab-active-trans-bg)] data-[state=active]:text-[var(--tab-active-trans-text)] data-[state=active]:border-[var(--tab-active-trans-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <Bus className="w-3.5 h-3.5 mr-1.5" />
               Transporte
             </TabsTrigger>
             <TabsTrigger
               value="local"
-              className="data-[state=active]:bg-purple-900/30 data-[state=active]:text-purple-300 data-[state=active]:border-purple-800 text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+              className="data-[state=active]:bg-[var(--tab-active-local-bg)] data-[state=active]:text-[var(--tab-active-local-text)] data-[state=active]:border-[var(--tab-active-local-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
             >
               <MapPin className="w-3.5 h-3.5 mr-1.5" />
               Local de Trabalho

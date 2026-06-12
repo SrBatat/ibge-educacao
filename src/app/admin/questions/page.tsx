@@ -222,7 +222,7 @@ export default function AdminQuestions() {
           <SelectContent className="bg-card border-border">
             <SelectItem value="all" className="text-muted-foreground">Todas Categorias</SelectItem>
             {categorias.map((c) => (
-              <SelectItem key={c} value={c} className="text-white">{c}</SelectItem>
+              <SelectItem key={c} value={c} className="text-foreground">{c}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -233,9 +233,9 @@ export default function AdminQuestions() {
           </SelectTrigger>
           <SelectContent className="bg-card border-border">
             <SelectItem value="all" className="text-muted-foreground">Todas</SelectItem>
-            <SelectItem value="FACIL" className="text-white">Fácil</SelectItem>
-            <SelectItem value="MEDIO" className="text-white">Médio</SelectItem>
-            <SelectItem value="DIFICIL" className="text-white">Difícil</SelectItem>
+            <SelectItem value="FACIL" className="text-foreground">Fácil</SelectItem>
+            <SelectItem value="MEDIO" className="text-foreground">Médio</SelectItem>
+            <SelectItem value="DIFICIL" className="text-foreground">Difícil</SelectItem>
           </SelectContent>
         </Select>
 
@@ -245,8 +245,8 @@ export default function AdminQuestions() {
           </SelectTrigger>
           <SelectContent className="bg-card border-border">
             <SelectItem value="all" className="text-muted-foreground">Todos</SelectItem>
-            <SelectItem value="true" className="text-white">Ativo</SelectItem>
-            <SelectItem value="false" className="text-white">Inativo</SelectItem>
+            <SelectItem value="true" className="text-foreground">Ativo</SelectItem>
+            <SelectItem value="false" className="text-foreground">Inativo</SelectItem>
           </SelectContent>
         </Select>
       </motion.div>
@@ -335,10 +335,10 @@ export default function AdminQuestions() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border">
-                        <SelectItem value="A" className="text-white">A</SelectItem>
-                        <SelectItem value="B" className="text-white">B</SelectItem>
-                        <SelectItem value="C" className="text-white">C</SelectItem>
-                        <SelectItem value="D" className="text-white">D</SelectItem>
+                        <SelectItem value="A" className="text-foreground">A</SelectItem>
+                        <SelectItem value="B" className="text-foreground">B</SelectItem>
+                        <SelectItem value="C" className="text-foreground">C</SelectItem>
+                        <SelectItem value="D" className="text-foreground">D</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -358,9 +358,9 @@ export default function AdminQuestions() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border">
-                        <SelectItem value="FACIL" className="text-white">Fácil</SelectItem>
-                        <SelectItem value="MEDIO" className="text-white">Médio</SelectItem>
-                        <SelectItem value="DIFICIL" className="text-white">Difícil</SelectItem>
+                        <SelectItem value="FACIL" className="text-foreground">Fácil</SelectItem>
+                        <SelectItem value="MEDIO" className="text-foreground">Médio</SelectItem>
+                        <SelectItem value="DIFICIL" className="text-foreground">Difícil</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -460,7 +460,7 @@ export default function AdminQuestions() {
                             {q.dificuldade}
                           </Badge>
                         </td>
-                        <td className="p-4 text-zinc-300 font-medium">{q.pontos}</td>
+                        <td className="p-4 text-foreground font-medium">{q.pontos}</td>
                         <td className="p-4">
                           <Badge
                             variant="outline"
