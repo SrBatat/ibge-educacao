@@ -79,37 +79,37 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.07 0.005 285);     /* Gothic-950 #0a0a0c — very dark with slight purple undertone */
+  --foreground: oklch(0.95 0 0);             /* Near-white for primary text */
+  --card: oklch(0.11 0.005 285);             /* Gothic-900 #121216 — dark card background */
+  --card-foreground: oklch(0.95 0 0);        /* Near-white text on cards */
+  --popover: oklch(0.11 0.005 285);          /* Gothic-900 — dark popover background */
+  --popover-foreground: oklch(0.95 0 0);     /* Near-white text in popovers */
+  --primary: oklch(0.577 0.245 27.325);      /* Crimson-500 #b91c1c — gothic accent */
+  --primary-foreground: oklch(0.98 0 0);     /* White text on primary */
+  --secondary: oklch(0.18 0.008 285);        /* Gothic-800 #1a1a22 */
+  --secondary-foreground: oklch(0.90 0 0);   /* Light text on secondary */
+  --muted: oklch(0.18 0.008 285);            /* Gothic-800 muted background */
+  --muted-foreground: oklch(0.65 0.01 285);  /* Gothic-500 readable muted text */
+  --accent: oklch(0.18 0.008 285);           /* Gothic-800 accent background */
+  --accent-foreground: oklch(0.90 0 0);      /* Light text on accent */
+  --destructive: oklch(0.577 0.245 27.325);  /* Crimson — matches primary */
+  --border: oklch(1 0 0 / 10%);              /* Subtle white border */
+  --input: oklch(1 0 0 / 15%);               /* Subtle white input border */
+  --ring: oklch(0.577 0.15 27.325);          /* Crimson ring for focus */
+  --chart-1: oklch(0.577 0.245 27.325);      /* Crimson chart color */
+  --chart-2: oklch(0.55 0.22 300);           /* Purple chart color */
+  --chart-3: oklch(0.65 0.2 145);            /* Emerald chart color */
+  --chart-4: oklch(0.65 0.18 80);            /* Amber chart color */
+  --chart-5: oklch(0.6 0.18 230);            /* Sky chart color */
+  --sidebar: oklch(0.11 0.005 285);          /* Gothic-900 sidebar */
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.577 0.245 27.325); /* Crimson sidebar primary */
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.18 0.008 285);
+  --sidebar-accent-foreground: oklch(0.90 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: oklch(0.577 0.15 27.325);
 }
 
 @layer base {
