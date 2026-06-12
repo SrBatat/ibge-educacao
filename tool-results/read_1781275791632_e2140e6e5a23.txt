@@ -1,0 +1,932 @@
+     1→'use client';
+     2→
+     3→import { useState, useMemo } from 'react';
+     4→import { useChartTheme } from '@/hooks/useChartTheme';
+     5→import { motion, AnimatePresence } from 'framer-motion';
+     6→import {
+     7→  BookOpen, GraduationCap, Users, TrendingUp, MapPin, Bus,
+     8→  ChevronDown, Info, BarChart3, PieChart, Activity, Globe
+     9→} from 'lucide-react';
+    10→import {
+    11→  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    12→  ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis,
+    13→  PolarRadiusAxis, Radar, PieChart as RechartsPie, Pie, Cell,
+    14→  LineChart, Line, AreaChart, Area, ComposedChart, ReferenceLine
+    15→} from 'recharts';
+    16→import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+    17→import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+    18→import { Badge } from '@/components/ui/badge';
+    19→import { Button } from '@/components/ui/button';
+    20→import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+    21→import { Progress } from '@/components/ui/progress';
+    22→import { Separator } from '@/components/ui/separator';
+    23→import Navbar from '@/components/layout/Navbar';
+    24→import KPICard from '@/components/ui/kpi-card';
+    25→import {
+    26→  frequenciaEscolar, situacaoOcupacao, localTrabalho, meioTransporte,
+    27→  regioes, estadosPorRegiao, ageGroups, ageGroupKeys, transportLabels, transportKeys,
+    28→  type FrequenciaEscolar
+    29→} from '@/lib/ibge-data';
+    30→
+    31→// --- Color Palette (IBGE Gothic) ---
+    32→const COLORS = {
+    33→  crimson: '#b91c1c',
+    34→  crimsonLight: '#ef4444',
+    35→  purple: '#7c3aed',
+    36→  purpleLight: '#a78bfa',
+    37→  emerald: '#16a34a',
+    38→  emeraldLight: '#4ade80',
+    39→  amber: '#d97706',
+    40→  amberLight: '#fbbf24',
+    41→  sky: '#0284c7',
+    42→  skyLight: '#38bdf8',
+    43→  rose: '#e11d48',
+    44→  teal: '#0d9488',
+    45→  slate: '#64748b',
+    46→};
+    47→
+    48→const CHART_COLORS = [
+    49→  COLORS.crimson, COLORS.purple, COLORS.emerald,
+    50→  COLORS.amber, COLORS.sky, COLORS.rose
+    51→];
+    52→
+    53→// --- Custom Tooltip ---
+    54→function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color: string }>; label?: string }) {
+    55→  if (!active || !payload) return null;
+    56→  return (
+    57→    <div className="bg-card border border-input rounded-lg p-3 shadow-xl text-sm">
+    58→      <p className="text-card-foreground font-medium mb-1">{label}</p>
+    59→      {payload.map((entry, i) => (
+    60→        <p key={i} className="flex items-center gap-2">
+    61→          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
+    62→          <span className="text-muted-foreground">{entry.name}:</span>
+    63→          <span className="text-foreground font-semibold">{typeof entry.value === 'number' ? entry.value.toFixed(1) : entry.value}%</span>
+    64→        </p>
+    65→      ))}
+    66→    </div>
+    67→  );
+    68→}
+    69→
+    70→// --- KPICard and useCountUp are now imported from @/components/ui/kpi-card and @/hooks/useCountUp ---
+    71→
+    72→// --- Section Header ---
+    73→function SectionHeader({ title, description, icon: Icon }: { title: string; description: string; icon: React.ElementType }) {
+    74→  return (
+    75→    <div className="flex items-center gap-3 mb-6">
+    76→      <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
+    77→        <Icon className="w-4 h-4 text-primary" />
+    78→      </div>
+    79→      <div>
+    80→        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    81→        <p className="text-xs text-muted-foreground">{description}</p>
+    82→      </div>
+    83→    </div>
+    84→  );
+    85→}
+    86→
+    87→// --- Education Tab ---
+    88→function EducacaoTab() {
+    89→  const chartColors = useChartTheme();
+    90→  const [selectedRegiao, setSelectedRegiao] = useState<string>('Brasil');
+    91→  const [viewMode, setViewMode] = useState<'regioes' | 'estados'>('regioes');
+    92→
+    93→  const currentData = useMemo(() => {
+    94→    return frequenciaEscolar.find(d => d.regiao === selectedRegiao) || frequenciaEscolar[0];
+    95→  }, [selectedRegiao]);
+    96→
+    97→  // Chart data: Frequency by age group comparing men vs women
+    98→  const barChartData = useMemo(() => {
+    99→    return ageGroups.map((label, i) => ({
+   100→      name: label,
+   101→      Homens: currentData.homens[ageGroupKeys[i]],
+   102→      Mulheres: currentData.mulheres[ageGroupKeys[i]],
+   103→    }));
+   104→  }, [currentData]);
+   105→
+   106→  // Radar chart data for regions
+   107→  const radarData = useMemo(() => {
+   108→    return ageGroups.map((label, i) => {
+   109→      const entry: Record<string, string | number> = { name: label.replace(' anos', '') };
+   110→      regioes.filter(r => r !== 'Brasil').forEach(regiao => {
+   111→        const data = frequenciaEscolar.find(d => d.regiao === regiao);
+   112→        if (data) {
+   113→          const avg = (data.homens[ageGroupKeys[i]] + data.mulheres[ageGroupKeys[i]]) / 2;
+   114→          entry[regiao] = Math.round(avg * 10) / 10;
+   115→        }
+   116→      });
+   117→      return entry;
+   118→    });
+   119→  }, []);
+   120→
+   121→  // Regional comparison data
+   122→  const regionalComparison = useMemo(() => {
+   123→    return regioes.filter(r => r !== 'Brasil').map(regiao => {
+   124→      const data = frequenciaEscolar.find(d => d.regiao === regiao);
+   125→      if (!data) return { name: regiao };
+   126→      const totalAvg = ageGroupKeys.reduce((sum, key) => sum + (data.homens[key] + data.mulheres[key]) / 2, 0) / 6;
+   127→      const infantilAvg = ((data.homens['0a3'] + data.mulheres['0a3']) + (data.homens['4a5'] + data.mulheres['4a5'])) / 4;
+   128→      const fundamentalAvg = (data.homens['6a14'] + data.mulheres['6a14']) / 2;
+   129→      const medioAvg = (data.homens['15a17'] + data.mulheres['15a17']) / 2;
+   130→      const superiorAvg = (data.homens['18a24'] + data.mulheres['18a24']) / 2;
+   131→      return {
+   132→        name: regiao,
+   133→        'Educação Infantil': Math.round(infantilAvg * 10) / 10,
+   134→        'Ensino Fundamental': Math.round(fundamentalAvg * 10) / 10,
+   135→        'Ensino Médio': Math.round(medioAvg * 10) / 10,
+   136→        'Ensino Superior': Math.round(superiorAvg * 10) / 10,
+   137→      };
+   138→    });
+   139→  }, []);
+   140→
+   141→  // States data
+   142→  const stateData = useMemo(() => {
+   143→    const regiao = selectedRegiao === 'Brasil' ? 'Sudeste' : selectedRegiao;
+   144→    const states = estadosPorRegiao[regiao] || [];
+   145→    return states.map(estado => {
+   146→      const data = frequenciaEscolar.find(d => d.regiao === estado);
+   147→      if (!data) return { name: estado };
+   148→      return {
+   149→        name: estado.replace('Rio Grande do ', 'RG do ').replace('Mato Grosso do ', 'MG do '),
+   150→        '0-3 anos': Math.round(((data.homens['0a3'] + data.mulheres['0a3']) / 2) * 10) / 10,
+   151→        '6-14 anos': Math.round(((data.homens['6a14'] + data.mulheres['6a14']) / 2) * 10) / 10,
+   152→        '15-17 anos': Math.round(((data.homens['15a17'] + data.mulheres['15a17']) / 2) * 10) / 10,
+   153→        '18-24 anos': Math.round(((data.homens['18a24'] + data.mulheres['18a24']) / 2) * 10) / 10,
+   154→      };
+   155→    });
+   156→  }, [selectedRegiao]);
+   157→
+   158→  // Gender gap analysis
+   159→  const genderGapData = useMemo(() => {
+   160→    return ageGroups.map((label, i) => ({
+   161→      name: label.replace(' anos', ''),
+   162→      gap: Math.round((currentData.mulheres[ageGroupKeys[i]] - currentData.homens[ageGroupKeys[i]]) * 100) / 100,
+   163→    }));
+   164→  }, [currentData]);
+   165→
+   166→  return (
+   167→    <div className="space-y-6">
+   168→      {/* KPI Cards */}
+   169→      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+   170→        <KPICard
+   171→          title="Educação Infantil (0-5)"
+   172→          value={`${Math.round(((currentData.homens['0a3'] + currentData.mulheres['0a3']) / 2 + (currentData.homens['4a5'] + currentData.mulheres['4a5']) / 2) / 2)}%`}
+   173→          subtitle="Média de frequência"
+   174→          icon={BookOpen}
+   175→          color={COLORS.purple}
+   176→        />
+   177→        <KPICard
+   178→          title="Ensino Fundamental"
+   179→          value={`${Math.round((currentData.homens['6a14'] + currentData.mulheres['6a14']) / 2)}%`}
+   180→          subtitle="6 a 14 anos"
+   181→          icon={GraduationCap}
+   182→          color={COLORS.emerald}
+   183→        />
+   184→        <KPICard
+   185→          title="Ensino Médio"
+   186→          value={`${Math.round((currentData.homens['15a17'] + currentData.mulheres['15a17']) / 2)}%`}
+   187→          subtitle="15 a 17 anos"
+   188→          icon={TrendingUp}
+   189→          color={COLORS.amber}
+   190→        />
+   191→        <KPICard
+   192→          title="Ensino Superior"
+   193→          value={`${Math.round((currentData.homens['18a24'] + currentData.mulheres['18a24']) / 2)}%`}
+   194→          subtitle="18 a 24 anos"
+   195→          icon={Users}
+   196→          color={COLORS.sky}
+   197→        />
+   198→      </div>
+   199→
+   200→      {/* Region Selector + Main Chart */}
+   201→      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+   202→        <Card className="lg:col-span-2 bg-background border-border">
+   203→          <CardHeader className="pb-3">
+   204→            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+   205→              <div>
+   206→                <CardTitle className="text-foreground text-base font-display-gothic">Frequência Escolar por Idade e Sexo</CardTitle>
+   207→                <CardDescription className="text-muted-foreground text-xs">Taxa bruta de frequência escolar — {selectedRegiao} — 2022</CardDescription>
+   208→              </div>
+   209→              <Select value={selectedRegiao} onValueChange={setSelectedRegiao}>
+   210→                <SelectTrigger className="w-[180px] bg-card border-input text-foreground text-xs">
+   211→                  <SelectValue />
+   212→                </SelectTrigger>
+   213→                <SelectContent>
+   214→                  {regioes.map(r => (
+   215→                    <SelectItem key={r} value={r}>{r}</SelectItem>
+   216→                  ))}
+   217→                </SelectContent>
+   218→              </Select>
+   219→            </div>
+   220→          </CardHeader>
+   221→          <CardContent>
+   222→            <ResponsiveContainer width="100%" height={320}>
+   223→              <BarChart data={barChartData} barGap={4}>
+   224→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   225→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   226→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} domain={[0, 100]} />
+   227→                <Tooltip content={<CustomTooltip />} />
+   228→                <Legend wrapperStyle={{ fontSize: 11 }} />
+   229→                <Bar dataKey="Homens" fill={COLORS.sky} radius={[4, 4, 0, 0]} maxBarSize={40} />
+   230→                <Bar dataKey="Mulheres" fill={COLORS.crimson} radius={[4, 4, 0, 0]} maxBarSize={40} />
+   231→              </BarChart>
+   232→            </ResponsiveContainer>
+   233→          </CardContent>
+   234→        </Card>
+   235→
+   236→        {/* Gender Gap Chart */}
+   237→        <Card className="bg-background border-border">
+   238→          <CardHeader className="pb-3">
+   239→            <CardTitle className="text-foreground text-base font-display-gothic">Gap de Gênero</CardTitle>
+   240→            <CardDescription className="text-muted-foreground text-xs">Diferença Mulheres - Homens (p.p.)</CardDescription>
+   241→          </CardHeader>
+   242→          <CardContent>
+   243→            <ResponsiveContainer width="100%" height={320}>
+   244→              <ComposedChart data={genderGapData}>
+   245→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   246→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} axisLine={{ stroke: chartColors.axis }} />
+   247→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   248→                <Tooltip content={<CustomTooltip />} />
+   249→                <ReferenceLine y={0} stroke={chartColors.reference} />
+   250→                <Bar dataKey="gap" name="Gap (p.p.)" radius={[4, 4, 0, 0]} maxBarSize={30}>
+   251→                  {genderGapData.map((entry, index) => (
+   252→                    <Cell key={index} fill={entry.gap >= 0 ? COLORS.emerald : COLORS.crimson} />
+   253→                  ))}
+   254→                </Bar>
+   255→              </ComposedChart>
+   256→            </ResponsiveContainer>
+   257→          </CardContent>
+   258→        </Card>
+   259→      </div>
+   260→
+   261→      {/* Regional Radar + Comparison */}
+   262→      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+   263→        <Card className="bg-background border-border">
+   264→          <CardHeader className="pb-3">
+   265→            <CardTitle className="text-foreground text-base font-display-gothic">Perfil Regional da Educação</CardTitle>
+   266→            <CardDescription className="text-muted-foreground text-xs">Comparação entre Grandes Regiões — Radar</CardDescription>
+   267→          </CardHeader>
+   268→          <CardContent>
+   269→            <ResponsiveContainer width="100%" height={350}>
+   270→              <RadarChart data={radarData}>
+   271→                <PolarGrid stroke={chartColors.grid} />
+   272→                <PolarAngleAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} />
+   273→                <PolarRadiusAxis tick={{ fill: chartColors.reference, fontSize: 8 }} domain={[0, 100]} />
+   274→                {regioes.filter(r => r !== 'Brasil').map((regiao, i) => (
+   275→                  <Radar key={regiao} name={regiao} dataKey={regiao} stroke={CHART_COLORS[i]} fill={CHART_COLORS[i]} fillOpacity={0.1} />
+   276→                ))}
+   277→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   278→                <Tooltip content={<CustomTooltip />} />
+   279→              </RadarChart>
+   280→            </ResponsiveContainer>
+   281→          </CardContent>
+   282→        </Card>
+   283→
+   284→        <Card className="bg-background border-border">
+   285→          <CardHeader className="pb-3">
+   286→            <CardTitle className="text-foreground text-base font-display-gothic">Comparação por Nível de Ensino</CardTitle>
+   287→            <CardDescription className="text-muted-foreground text-xs">Grandes Regiões — Taxa de frequência escolar (%)</CardDescription>
+   288→          </CardHeader>
+   289→          <CardContent>
+   290→            <ResponsiveContainer width="100%" height={350}>
+   291→              <BarChart data={regionalComparison} layout="vertical" barGap={2}>
+   292→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} horizontal={false} />
+   293→                <XAxis type="number" tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 100]} axisLine={{ stroke: chartColors.axis }} />
+   294→                <YAxis dataKey="name" type="category" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} width={90} />
+   295→                <Tooltip content={<CustomTooltip />} />
+   296→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   297→                <Bar dataKey="Educação Infantil" fill={COLORS.purple} maxBarSize={12} radius={[0, 2, 2, 0]} />
+   298→                <Bar dataKey="Ensino Fundamental" fill={COLORS.emerald} maxBarSize={12} radius={[0, 2, 2, 0]} />
+   299→                <Bar dataKey="Ensino Médio" fill={COLORS.amber} maxBarSize={12} radius={[0, 2, 2, 0]} />
+   300→                <Bar dataKey="Ensino Superior" fill={COLORS.sky} maxBarSize={12} radius={[0, 2, 2, 0]} />
+   301→              </BarChart>
+   302→            </ResponsiveContainer>
+   303→          </CardContent>
+   304→        </Card>
+   305→      </div>
+   306→
+   307→      {/* State-level detail */}
+   308→      <Card className="bg-background border-border">
+   309→        <CardHeader className="pb-3">
+   310→          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+   311→            <div>
+   312→              <CardTitle className="text-foreground text-base font-display-gothic">Detalhamento por Estado</CardTitle>
+   313→              <CardDescription className="text-muted-foreground text-xs">Frequência escolar por UF na região selecionada</CardDescription>
+   314→            </div>
+   315→            <Select value={selectedRegiao} onValueChange={setSelectedRegiao}>
+   316→              <SelectTrigger className="w-[180px] bg-card border-input text-foreground text-xs">
+   317→                <SelectValue />
+   318→              </SelectTrigger>
+   319→              <SelectContent>
+   320→                {Object.keys(estadosPorRegiao).map(r => (
+   321→                  <SelectItem key={r} value={r}>{r}</SelectItem>
+   322→                ))}
+   323→              </SelectContent>
+   324→            </Select>
+   325→          </div>
+   326→        </CardHeader>
+   327→        <CardContent>
+   328→          {stateData.length > 0 ? (
+   329→            <ResponsiveContainer width="100%" height={280}>
+   330→              <BarChart data={stateData} barGap={2}>
+   331→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   332→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} axisLine={{ stroke: chartColors.axis }} />
+   333→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 100]} axisLine={{ stroke: chartColors.axis }} />
+   334→                <Tooltip content={<CustomTooltip />} />
+   335→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   336→                <Bar dataKey="0-3 anos" fill={COLORS.purple} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   337→                <Bar dataKey="6-14 anos" fill={COLORS.emerald} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   338→                <Bar dataKey="15-17 anos" fill={COLORS.amber} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   339→                <Bar dataKey="18-24 anos" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   340→              </BarChart>
+   341→            </ResponsiveContainer>
+   342→          ) : (
+   343→            <div className="flex items-center justify-center h-64 text-muted-foreground text-sm">
+   344→              Selecione uma região para ver os estados
+   345→            </div>
+   346→          )}
+   347→        </CardContent>
+   348→      </Card>
+   349→
+   350→      {/* Data Table */}
+   351→      <Card className="bg-background border-border">
+   352→        <CardHeader className="pb-3">
+   353→          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Frequência Escolar</CardTitle>
+   354→          <CardDescription className="text-muted-foreground text-xs">Taxa bruta por grupo de idade e sexo — Censo 2022</CardDescription>
+   355→        </CardHeader>
+   356→        <CardContent>
+   357→          <div className="overflow-x-auto">
+   358→            <table className="w-full text-xs">
+   359→              <thead>
+   360→                <tr className="border-b border-border">
+   361→                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
+   362→                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={6}>Homens</th>
+   363→                  <th className="text-center py-2 px-1 text-rose-600 font-medium" colSpan={6}>Mulheres</th>
+   364→                </tr>
+   365→                <tr className="border-b border-border">
+   366→                  {ageGroups.concat(ageGroups).map((g, i) => (
+   367→                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{g.replace(' anos', '')}</th>
+   368→                  ))}
+   369→                </tr>
+   370→              </thead>
+   371→              <tbody>
+   372→                {frequenciaEscolar.filter(d => regioes.includes(d.regiao)).map((row, ri) => (
+   373→                  <tr key={ri} className={`border-b border-border ${row.regiao === selectedRegiao ? 'bg-card/50' : 'hover:bg-card/30'}`}>
+   374→                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
+   375→                    {ageGroupKeys.map(key => (
+   376→                      <td key={`h-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.homens[key].toFixed(1)}</td>
+   377→                    ))}
+   378→                    {ageGroupKeys.map(key => (
+   379→                      <td key={`m-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres[key].toFixed(1)}</td>
+   380→                    ))}
+   381→                  </tr>
+   382→                ))}
+   383→              </tbody>
+   384→            </table>
+   385→          </div>
+   386→        </CardContent>
+   387→      </Card>
+   388→    </div>
+   389→  );
+   390→}
+   391→
+   392→// --- Occupation Tab - Static data computations ---
+   393→const occupationChartData = situacaoOcupacao.map(d => ({
+   394→  name: d.regiao,
+   395→  'Ocupadas (Total)': Math.round(d.total.ocupadas * 10) / 10,
+   396→  'Não Ocupadas (Total)': Math.round(d.total.naoOcupadas * 10) / 10,
+   397→  'Ocupadas (Homens)': Math.round(d.homens.ocupadas * 10) / 10,
+   398→  'Ocupadas (Mulheres)': Math.round(d.mulheres.ocupadas * 10) / 10,
+   399→}));
+   400→
+   401→const brOcupacao = situacaoOcupacao.find(d => d.regiao === 'Brasil');
+   402→const occupationPieData = brOcupacao
+   403→  ? [
+   404→      { name: 'Ocupadas', value: Math.round(brOcupacao.total.ocupadas * 10) / 10, fill: COLORS.emerald },
+   405→      { name: 'Não Ocupadas', value: Math.round(brOcupacao.total.naoOcupadas * 10) / 10, fill: COLORS.crimson },
+   406→    ]
+   407→  : [];
+   408→
+   409→// --- Occupation Tab ---
+   410→function OcupacaoTab() {
+   411→  const chartColors = useChartTheme();
+   412→
+   413→  return (
+   414→    <div className="space-y-6">
+   415→      {/* KPI Cards */}
+   416→      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+   417→        <KPICard title="Taxa de Ocupação Brasil" value="53,5%" subtitle="Pessoas de 14+ anos" icon={Users} trend="neutral" color={COLORS.emerald} />
+   418→        <KPICard title="Homens Ocupados" value="62,9%" subtitle="vs 37,1% não ocupados" icon={TrendingUp} trend="up" color={COLORS.sky} />
+   419→        <KPICard title="Mulheres Ocupadas" value="44,9%" subtitle="vs 55,1% não ocupadas" icon={Users} trend="down" color={COLORS.crimson} />
+   420→        <KPICard title="Gap de Gênero" value="18,1 p.p." subtitle="Diferença ocupação H-M" icon={Activity} color={COLORS.amber} />
+   421→      </div>
+   422→
+   423→      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+   424→        {/* Main bar chart */}
+   425→        <Card className="lg:col-span-2 bg-background border-border">
+   426→          <CardHeader className="pb-3">
+   427→            <CardTitle className="text-foreground text-base font-display-gothic">Situação de Ocupação por Região</CardTitle>
+   428→            <CardDescription className="text-muted-foreground text-xs">Pessoas de 14+ anos — Censo 2022</CardDescription>
+   429→          </CardHeader>
+   430→          <CardContent>
+   431→            <ResponsiveContainer width="100%" height={340}>
+   432→              <BarChart data={occupationChartData} barGap={2}>
+   433→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   434→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   435→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 80]} axisLine={{ stroke: chartColors.axis }} />
+   436→                <Tooltip content={<CustomTooltip />} />
+   437→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   438→                <Bar dataKey="Ocupadas (Homens)" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   439→                <Bar dataKey="Ocupadas (Mulheres)" fill={COLORS.crimson} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   440→                <Bar dataKey="Não Ocupadas (Total)" fill={COLORS.slate} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   441→              </BarChart>
+   442→            </ResponsiveContainer>
+   443→          </CardContent>
+   444→        </Card>
+   445→
+   446→        {/* Pie chart */}
+   447→        <Card className="bg-background border-border">
+   448→          <CardHeader className="pb-3">
+   449→            <CardTitle className="text-foreground text-base font-display-gothic">Ocupação — Brasil</CardTitle>
+   450→            <CardDescription className="text-muted-foreground text-xs">Distribuição percentual</CardDescription>
+   451→          </CardHeader>
+   452→          <CardContent>
+   453→            <ResponsiveContainer width="100%" height={200}>
+   454→              <RechartsPie>
+   455→                <Pie data={occupationPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={45} paddingAngle={3} label={({ name, value }) => `${value}%`}>
+   456→                  {occupationPieData.map((entry, index) => (
+   457→                    <Cell key={index} fill={entry.fill} />
+   458→                  ))}
+   459→                </Pie>
+   460→                <Tooltip content={<CustomTooltip />} />
+   461→              </RechartsPie>
+   462→            </ResponsiveContainer>
+   463→            <div className="flex justify-center gap-4 mt-2">
+   464→              {occupationPieData.map((entry, i) => (
+   465→                <div key={i} className="flex items-center gap-1.5 text-xs">
+   466→                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.fill }} />
+   467→                  <span className="text-muted-foreground">{entry.name}</span>
+   468→                </div>
+   469→              ))}
+   470→            </div>
+   471→          </CardContent>
+   472→        </Card>
+   473→      </div>
+   474→
+   475→      {/* Education & Occupation insight */}
+   476→      <Card className="bg-background border-border">
+   477→        <CardHeader className="pb-3">
+   478→          <CardTitle className="text-foreground text-base font-display-gothic">Educação e Ocupação — Análise Cruzada</CardTitle>
+   479→          <CardDescription className="text-muted-foreground text-xs">Relação entre frequência escolar e ocupação por região</CardDescription>
+   480→        </CardHeader>
+   481→        <CardContent>
+   482→          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+   483→            {situacaoOcupacao.filter(d => d.regiao !== 'Brasil').map((d, i) => {
+   484→              const freqData = frequenciaEscolar.find(f => f.regiao === d.regiao);
+   485→              const superiorFreq = freqData ? Math.round((freqData.homens['18a24'] + freqData.mulheres['18a24']) / 2) : 0;
+   486→              const ocupacao = Math.round(d.total.ocupadas);
+   487→              return (
+   488→                <motion.div
+   489→                  key={d.regiao}
+   490→                  initial={{ opacity: 0, y: 10 }}
+   491→                  animate={{ opacity: 1, y: 0 }}
+   492→                  transition={{ delay: i * 0.1 }}
+   493→                  className="bg-card rounded-lg p-4 border border-border"
+   494→                >
+   495→                  <div className="flex items-center justify-between mb-3">
+   496→                    <span className="text-foreground font-medium text-sm">{d.regiao}</span>
+   497→                    <Badge variant="outline" className="text-[10px] border-input text-muted-foreground">Censo 2022</Badge>
+   498→                  </div>
+   499→                  <div className="space-y-2.5">
+   500→                    <div>
+   501→                      <div className="flex justify-between text-xs mb-1">
+   502→                        <span className="text-muted-foreground">Freq. Superior (18-24)</span>
+   503→                        <span className="text-emerald-600">{superiorFreq}%</span>
+   504→                      </div>
+   505→                      <Progress value={superiorFreq} className="h-1.5 bg-secondary" />
+   506→                    </div>
+   507→                    <div>
+   508→                      <div className="flex justify-between text-xs mb-1">
+   509→                        <span className="text-muted-foreground">Taxa de Ocupação</span>
+   510→                        <span className="text-sky-600">{ocupacao}%</span>
+   511→                      </div>
+   512→                      <Progress value={ocupacao} className="h-1.5 bg-secondary" />
+   513→                    </div>
+   514→                    <div>
+   515→                      <div className="flex justify-between text-xs mb-1">
+   516→                        <span className="text-muted-foreground">Ocupação Feminina</span>
+   517→                        <span className="text-rose-600">{Math.round(d.mulheres.ocupadas)}%</span>
+   518→                      </div>
+   519→                      <Progress value={Math.round(d.mulheres.ocupadas)} className="h-1.5 bg-secondary" />
+   520→                    </div>
+   521→                  </div>
+   522→                </motion.div>
+   523→              );
+   524→            })}
+   525→          </div>
+   526→        </CardContent>
+   527→      </Card>
+   528→
+   529→      {/* Data Table */}
+   530→      <Card className="bg-background border-border">
+   531→        <CardHeader className="pb-3">
+   532→          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Situação de Ocupação</CardTitle>
+   533→          <CardDescription className="text-muted-foreground text-xs">Pessoas de 14+ anos por região e sexo — Censo 2022</CardDescription>
+   534→        </CardHeader>
+   535→        <CardContent>
+   536→          <div className="overflow-x-auto">
+   537→            <table className="w-full text-xs">
+   538→              <thead>
+   539→                <tr className="border-b border-border">
+   540→                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
+   541→                  <th className="text-center py-2 px-1 text-emerald-600 font-medium" colSpan={2}>Total</th>
+   542→                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={2}>Homens</th>
+   543→                  <th className="text-center py-2 px-1 text-rose-600 font-medium" colSpan={2}>Mulheres</th>
+   544→                </tr>
+   545→                <tr className="border-b border-border">
+   546→                  {['Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas', 'Ocupadas', 'Não Ocupadas'].map((h, i) => (
+   547→                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{h}</th>
+   548→                  ))}
+   549→                </tr>
+   550→              </thead>
+   551→              <tbody>
+   552→                {situacaoOcupacao.map((row, ri) => (
+   553→                  <tr key={ri} className="border-b border-border hover:bg-card/30">
+   554→                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
+   555→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.ocupadas.toFixed(1)}%</td>
+   556→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.naoOcupadas.toFixed(1)}%</td>
+   557→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.ocupadas.toFixed(1)}%</td>
+   558→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.naoOcupadas.toFixed(1)}%</td>
+   559→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.ocupadas.toFixed(1)}%</td>
+   560→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.naoOcupadas.toFixed(1)}%</td>
+   561→                  </tr>
+   562→                ))}
+   563→              </tbody>
+   564→            </table>
+   565→          </div>
+   566→        </CardContent>
+   567→      </Card>
+   568→    </div>
+   569→  );
+   570→}
+   571→
+   572→// --- Transport Tab - Static data computations ---
+   573→const brTransport = meioTransporte.find(d => d.regiao === 'Brasil');
+   574→const transportChartData = brTransport
+   575→  ? transportLabels.map((label, i) => ({
+   576→      name: label,
+   577→      Branca: brTransport.branca[transportKeys[i]],
+   578→      'Preta/Parda': brTransport.pretaParda[transportKeys[i]],
+   579→      Indígena: brTransport.indigena[transportKeys[i]],
+   580→    }))
+   581→  : [];
+   582→
+   583→const regionalTransportData = meioTransporte.map(d => ({
+   584→  name: d.regiao,
+   585→  'A pé (Branca)': d.branca.aPe,
+   586→  'A pé (Preta/Parda)': d.pretaParda.aPe,
+   587→  'Automóvel (Branca)': d.branca.automovel,
+   588→  'Automóvel (Preta/Parda)': d.pretaParda.automovel,
+   589→}));
+   590→
+   591→const racialGapData = brTransport
+   592→  ? [
+   593→      { name: 'A pé', gap: Math.round((brTransport.pretaParda.aPe - brTransport.branca.aPe) * 10) / 10 },
+   594→      { name: 'Automóvel', gap: Math.round((brTransport.pretaParda.automovel - brTransport.branca.automovel) * 10) / 10 },
+   595→      { name: 'Coletivo', gap: Math.round((brTransport.pretaParda.coletivo - brTransport.branca.coletivo) * 10) / 10 },
+   596→      { name: 'Motocicleta', gap: Math.round((brTransport.pretaParda.motocicleta - brTransport.branca.motocicleta) * 10) / 10 },
+   597→      { name: 'Bicicleta', gap: Math.round((brTransport.pretaParda.bicicleta - brTransport.branca.bicicleta) * 10) / 10 },
+   598→    ]
+   599→  : [];
+   600→
+   601→// --- Transport Tab ---
+   602→function TransporteTab() {
+   603→  const chartColors = useChartTheme();
+   604→
+   605→  return (
+   606→    <div className="space-y-6">
+   607→      {/* KPI Cards */}
+   608→      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+   609→        <KPICard title="Automóvel (Branca)" value="41,8%" subtitle="Principal meio de transporte" icon={Bus} color={COLORS.emerald} />
+   610→        <KPICard title="Coletivo (Preta/Parda)" value="34,6%" subtitle="Principal meio de transporte" icon={Bus} color={COLORS.sky} />
+   611→        <KPICard title="A pé (Indígena)" value="37,5%" subtitle="Principal meio de transporte" icon={MapPin} color={COLORS.amber} />
+   612→        <KPICard title="Desigualdade Racial" value="21,2 p.p." subtitle="Gap automóvel Branca x Preta/Parda" icon={Activity} color={COLORS.crimson} />
+   613→      </div>
+   614→
+   615→      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+   616→        <Card className="bg-background border-border">
+   617→          <CardHeader className="pb-3">
+   618→            <CardTitle className="text-foreground text-base font-display-gothic">Meio de Transporte por Cor/Raça — Brasil</CardTitle>
+   619→            <CardDescription className="text-muted-foreground text-xs">Mulheres de 10+ anos ocupadas — Censo 2022</CardDescription>
+   620→          </CardHeader>
+   621→          <CardContent>
+   622→            <ResponsiveContainer width="100%" height={340}>
+   623→              <BarChart data={transportChartData} barGap={2}>
+   624→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   625→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 9 }} axisLine={{ stroke: chartColors.axis }} />
+   626→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   627→                <Tooltip content={<CustomTooltip />} />
+   628→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   629→                <Bar dataKey="Branca" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   630→                <Bar dataKey="Preta/Parda" fill={COLORS.crimson} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   631→                <Bar dataKey="Indígena" fill={COLORS.amber} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   632→              </BarChart>
+   633→            </ResponsiveContainer>
+   634→          </CardContent>
+   635→        </Card>
+   636→
+   637→        <Card className="bg-background border-border">
+   638→          <CardHeader className="pb-3">
+   639→            <CardTitle className="text-foreground text-base font-display-gothic">Gap Racial no Transporte — Brasil</CardTitle>
+   640→            <CardDescription className="text-muted-foreground text-xs">Diferença Preta/Parda - Branca (p.p.)</CardDescription>
+   641→          </CardHeader>
+   642→          <CardContent>
+   643→            <ResponsiveContainer width="100%" height={340}>
+   644→              <ComposedChart data={racialGapData}>
+   645→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   646→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   647→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   648→                <Tooltip content={<CustomTooltip />} />
+   649→                <ReferenceLine y={0} stroke={chartColors.reference} />
+   650→                <Bar dataKey="gap" name="Gap (p.p.)" radius={[4, 4, 0, 0]} maxBarSize={35}>
+   651→                  {racialGapData.map((entry, index) => (
+   652→                    <Cell key={index} fill={entry.gap >= 0 ? COLORS.crimson : COLORS.emerald} />
+   653→                  ))}
+   654→                </Bar>
+   655→              </ComposedChart>
+   656→            </ResponsiveContainer>
+   657→          </CardContent>
+   658→        </Card>
+   659→      </div>
+   660→
+   661→      {/* Regional comparison */}
+   662→      <Card className="bg-background border-border">
+   663→        <CardHeader className="pb-3">
+   664→          <CardTitle className="text-foreground text-base font-display-gothic">Desigualdade Regional no Acesso a Automóvel</CardTitle>
+   665→          <CardDescription className="text-muted-foreground text-xs">% de mulheres ocupadas que usam automóvel por cor/raça e região</CardDescription>
+   666→        </CardHeader>
+   667→        <CardContent>
+   668→          <ResponsiveContainer width="100%" height={300}>
+   669→            <BarChart data={meioTransporte} barGap={2}>
+   670→              <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   671→              <XAxis dataKey="regiao" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   672→              <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   673→              <Tooltip content={<CustomTooltip />} />
+   674→              <Legend wrapperStyle={{ fontSize: 10 }} />
+   675→              <Bar dataKey="branca.automovel" name="Branca" fill={COLORS.sky} maxBarSize={25} radius={[3, 3, 0, 0]} />
+   676→              <Bar dataKey="pretaParda.automovel" name="Preta/Parda" fill={COLORS.crimson} maxBarSize={25} radius={[3, 3, 0, 0]} />
+   677→              <Bar dataKey="indigena.automovel" name="Indígena" fill={COLORS.amber} maxBarSize={25} radius={[3, 3, 0, 0]} />
+   678→            </BarChart>
+   679→          </ResponsiveContainer>
+   680→        </CardContent>
+   681→      </Card>
+   682→
+   683→      {/* Data Table */}
+   684→      <Card className="bg-background border-border">
+   685→        <CardHeader className="pb-3">
+   686→          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Meio de Transporte</CardTitle>
+   687→          <CardDescription className="text-muted-foreground text-xs">Mulheres de 10+ anos ocupadas por cor/raça e região — Censo 2022</CardDescription>
+   688→        </CardHeader>
+   689→        <CardContent>
+   690→          <div className="overflow-x-auto">
+   691→            <table className="w-full text-xs">
+   692→              <thead>
+   693→                <tr className="border-b border-border">
+   694→                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
+   695→                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={6}>Branca</th>
+   696→                  <th className="text-center py-2 px-1 text-red-600 font-medium" colSpan={6}>Preta/Parda</th>
+   697→                  <th className="text-center py-2 px-1 text-amber-600 font-medium" colSpan={6}>Indígena</th>
+   698→                </tr>
+   699→                <tr className="border-b border-border">
+   700→                  {transportLabels.concat(transportLabels).concat(transportLabels).map((l, i) => (
+   701→                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{l}</th>
+   702→                  ))}
+   703→                </tr>
+   704→              </thead>
+   705→              <tbody>
+   706→                {meioTransporte.map((row, ri) => (
+   707→                  <tr key={ri} className="border-b border-border hover:bg-card/30">
+   708→                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
+   709→                    {transportKeys.map(key => (
+   710→                      <td key={`b-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.branca[key].toFixed(1)}</td>
+   711→                    ))}
+   712→                    {transportKeys.map(key => (
+   713→                      <td key={`p-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.pretaParda[key].toFixed(1)}</td>
+   714→                    ))}
+   715→                    {transportKeys.map(key => (
+   716→                      <td key={`i-${key}`} className="text-center py-1.5 px-1 text-card-foreground">{row.indigena[key].toFixed(1)}</td>
+   717→                    ))}
+   718→                  </tr>
+   719→                ))}
+   720→              </tbody>
+   721→            </table>
+   722→          </div>
+   723→        </CardContent>
+   724→      </Card>
+   725→    </div>
+   726→  );
+   727→}
+   728→
+   729→// --- Local de Trabalho Tab - Static data computations ---
+   730→const localChartData = localTrabalho.map(d => ({
+   731→  name: d.regiao,
+   732→  'No domicílio': Math.round(d.total.noDomicilio * 10) / 10,
+   733→  'Fora do domicílio': Math.round(d.total.foraDomicilio * 10) / 10,
+   734→  'Outro município': Math.round(d.total.outroMunicipio * 10) / 10,
+   735→}));
+   736→
+   737→const workFromHomeData = localTrabalho.map(d => ({
+   738→  name: d.regiao,
+   739→  'Total': Math.round(d.total.noDomicilio * 10) / 10,
+   740→  'Homens': Math.round(d.homens.noDomicilio * 10) / 10,
+   741→  'Mulheres': Math.round(d.mulheres.noDomicilio * 10) / 10,
+   742→}));
+   743→
+   744→// --- Local de Trabalho Tab ---
+   745→function LocalTrabalhoTab() {
+   746→  const chartColors = useChartTheme();
+   747→
+   748→  return (
+   749→    <div className="space-y-6">
+   750→      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+   751→        <KPICard title="Trabalho no Domicílio" value="16,6%" subtitle="Brasil — Total" icon={MapPin} color={COLORS.purple} />
+   752→        <KPICard title="Trabalho Fora do Domicílio" value="69,9%" subtitle="Brasil — Total" icon={Globe} color={COLORS.emerald} />
+   753→        <KPICard title="Trabalho Outro Município" value="10,5%" subtitle="Brasil — Total" icon={MapPin} color={COLORS.amber} />
+   754→        <KPICard title="Home Office Feminino" value="18,9%" subtitle="vs 14,8% masculino" icon={Users} trend="up" color={COLORS.crimson} />
+   755→      </div>
+   756→
+   757→      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+   758→        <Card className="bg-background border-border">
+   759→          <CardHeader className="pb-3">
+   760→            <CardTitle className="text-foreground text-base font-display-gothic">Local de Trabalho por Região</CardTitle>
+   761→            <CardDescription className="text-muted-foreground text-xs">Pessoas de 10+ anos ocupadas — Censo 2022</CardDescription>
+   762→          </CardHeader>
+   763→          <CardContent>
+   764→            <ResponsiveContainer width="100%" height={320}>
+   765→              <BarChart data={localChartData} barGap={2}>
+   766→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   767→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   768→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} domain={[0, 80]} axisLine={{ stroke: chartColors.axis }} />
+   769→                <Tooltip content={<CustomTooltip />} />
+   770→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   771→                <Bar dataKey="No domicílio" fill={COLORS.purple} maxBarSize={20} radius={[3, 3, 0, 0]} stackId="a" />
+   772→                <Bar dataKey="Fora do domicílio" fill={COLORS.emerald} maxBarSize={20} radius={[3, 3, 0, 0]} stackId="a" />
+   773→                <Bar dataKey="Outro município" fill={COLORS.amber} maxBarSize={20} radius={[3, 3, 0, 0]} stackId="a" />
+   774→              </BarChart>
+   775→            </ResponsiveContainer>
+   776→          </CardContent>
+   777→        </Card>
+   778→
+   779→        <Card className="bg-background border-border">
+   780→          <CardHeader className="pb-3">
+   781→            <CardTitle className="text-foreground text-base font-display-gothic">Home Office por Gênero e Região</CardTitle>
+   782→            <CardDescription className="text-muted-foreground text-xs">Trabalho no domicílio de residência (%)</CardDescription>
+   783→          </CardHeader>
+   784→          <CardContent>
+   785→            <ResponsiveContainer width="100%" height={320}>
+   786→              <BarChart data={workFromHomeData} barGap={4}>
+   787→                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+   788→                <XAxis dataKey="name" tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   789→                <YAxis tick={{ fill: chartColors.tick, fontSize: 10 }} axisLine={{ stroke: chartColors.axis }} />
+   790→                <Tooltip content={<CustomTooltip />} />
+   791→                <Legend wrapperStyle={{ fontSize: 10 }} />
+   792→                <Bar dataKey="Homens" fill={COLORS.sky} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   793→                <Bar dataKey="Mulheres" fill={COLORS.crimson} maxBarSize={20} radius={[3, 3, 0, 0]} />
+   794→              </BarChart>
+   795→            </ResponsiveContainer>
+   796→          </CardContent>
+   797→        </Card>
+   798→      </div>
+   799→
+   800→      {/* Data Table */}
+   801→      <Card className="bg-background border-border">
+   802→        <CardHeader className="pb-3">
+   803→          <CardTitle className="text-foreground text-base font-display-gothic">Tabela Completa — Local de Trabalho</CardTitle>
+   804→          <CardDescription className="text-muted-foreground text-xs">Pessoas de 10+ anos ocupadas por região e sexo — Censo 2022</CardDescription>
+   805→        </CardHeader>
+   806→        <CardContent>
+   807→          <div className="overflow-x-auto">
+   808→            <table className="w-full text-xs">
+   809→              <thead>
+   810→                <tr className="border-b border-border">
+   811→                  <th className="text-left py-2 px-2 text-muted-foreground font-medium" rowSpan={2}>Região</th>
+   812→                  <th className="text-center py-2 px-1 text-purple-400 font-medium" colSpan={3}>Total</th>
+   813→                  <th className="text-center py-2 px-1 text-sky-600 font-medium" colSpan={3}>Homens</th>
+   814→                  <th className="text-center py-2 px-1 text-rose-600 font-medium" colSpan={3}>Mulheres</th>
+   815→                </tr>
+   816→                <tr className="border-b border-border">
+   817→                  {['No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município', 'No domicílio', 'Fora domicílio', 'Outro município'].map((h, i) => (
+   818→                    <th key={i} className="text-center py-1 px-1 text-muted-foreground font-normal">{h}</th>
+   819→                  ))}
+   820→                </tr>
+   821→              </thead>
+   822→              <tbody>
+   823→                {localTrabalho.map((row, ri) => (
+   824→                  <tr key={ri} className="border-b border-border hover:bg-card/30">
+   825→                    <td className="py-1.5 px-2 text-foreground font-medium">{row.regiao}</td>
+   826→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.noDomicilio.toFixed(1)}</td>
+   827→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.foraDomicilio.toFixed(1)}</td>
+   828→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.total.outroMunicipio.toFixed(1)}</td>
+   829→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.noDomicilio.toFixed(1)}</td>
+   830→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.foraDomicilio.toFixed(1)}</td>
+   831→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.homens.outroMunicipio.toFixed(1)}</td>
+   832→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.noDomicilio.toFixed(1)}</td>
+   833→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.foraDomicilio.toFixed(1)}</td>
+   834→                    <td className="text-center py-1.5 px-1 text-card-foreground">{row.mulheres.outroMunicipio.toFixed(1)}</td>
+   835→                  </tr>
+   836→                ))}
+   837→              </tbody>
+   838→            </table>
+   839→          </div>
+   840→        </CardContent>
+   841→      </Card>
+   842→    </div>
+   843→  );
+   844→}
+   845→
+   846→// --- Main Page ---
+   847→export default function Home() {
+   848→  const [activeTab, setActiveTab] = useState('educacao');
+   849→
+   850→  return (
+   851→    <div className="min-h-screen bg-background text-foreground">
+   852→      {/* Header */}
+   853→      <Navbar />
+   854→
+   855→      {/* Hero Banner */}
+   856→      <div className="relative overflow-hidden">
+   857→        <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, var(--hero-gradient-from), var(--hero-gradient-via), var(--hero-gradient-to))` }} />
+   858→        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px]" style={{ backgroundColor: 'var(--hero-glow-1)' }} />
+   859→        <div className="absolute top-10 right-1/4 w-[300px] h-[200px] rounded-full blur-[80px]" style={{ backgroundColor: 'var(--hero-glow-2)' }} />
+   860→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8">
+   861→          <motion.div
+   862→            initial={{ opacity: 0, y: 20 }}
+   863→            animate={{ opacity: 1, y: 0 }}
+   864→            transition={{ duration: 0.7 }}
+   865→          >
+   866→            <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight font-display-gothic">
+   867→              Educação & Sociedade
+   868→            </h2>
+   869→            <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-relaxed">
+   870→              Análise interativa dos dados do <span className="text-foreground font-medium">Censo Demográfico 2022</span> do IBGE,
+   871→              com foco na frequência escolar, situação de ocupação, meio de transporte e local de trabalho.
+   872→              Fonte: <span className="text-primary">SIDRA/IBGE</span> — Tabelas 10056, 10253, 10329 e 8424.
+   873→            </p>
+   874→          </motion.div>
+   875→        </div>
+   876→      </div>
+   877→
+   878→      {/* Main Content */}
+   879→      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+   880→        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+   881→          <TabsList className="bg-card border border-border p-1 h-auto gap-1">
+   882→            <TabsTrigger
+   883→              value="educacao"
+   884→              className="data-[state=active]:bg-[var(--tab-active-edu-bg)] data-[state=active]:text-[var(--tab-active-edu-text)] data-[state=active]:border-[var(--tab-active-edu-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+   885→            >
+   886→              <GraduationCap className="w-3.5 h-3.5 mr-1.5" />
+   887→              Frequência Escolar
+   888→            </TabsTrigger>
+   889→            <TabsTrigger
+   890→              value="ocupacao"
+   891→              className="data-[state=active]:bg-[var(--tab-active-ocup-bg)] data-[state=active]:text-[var(--tab-active-ocup-text)] data-[state=active]:border-[var(--tab-active-ocup-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+   892→            >
+   893→              <Users className="w-3.5 h-3.5 mr-1.5" />
+   894→              Ocupação
+   895→            </TabsTrigger>
+   896→            <TabsTrigger
+   897→              value="transporte"
+   898→              className="data-[state=active]:bg-[var(--tab-active-trans-bg)] data-[state=active]:text-[var(--tab-active-trans-text)] data-[state=active]:border-[var(--tab-active-trans-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+   899→            >
+   900→              <Bus className="w-3.5 h-3.5 mr-1.5" />
+   901→              Transporte
+   902→            </TabsTrigger>
+   903→            <TabsTrigger
+   904→              value="local"
+   905→              className="data-[state=active]:bg-[var(--tab-active-local-bg)] data-[state=active]:text-[var(--tab-active-local-text)] data-[state=active]:border-[var(--tab-active-local-border)] text-muted-foreground text-xs px-4 py-2 border border-transparent rounded-md transition-all"
+   906→            >
+   907→              <MapPin className="w-3.5 h-3.5 mr-1.5" />
+   908→              Local de Trabalho
+   909→            </TabsTrigger>
+   910→          </TabsList>
+   911→
+   912→          <AnimatePresence mode="wait">
+   913→            <motion.div
+   914→              key={activeTab}
+   915→              initial={{ opacity: 0, y: 10 }}
+   916→              animate={{ opacity: 1, y: 0 }}
+   917→              exit={{ opacity: 0, y: -10 }}
+   918→              transition={{ duration: 0.3 }}
+   919→            >
+   920→              {activeTab === 'educacao' && <EducacaoTab />}
+   921→              {activeTab === 'ocupacao' && <OcupacaoTab />}
+   922→              {activeTab === 'transporte' && <TransporteTab />}
+   923→              {activeTab === 'local' && <LocalTrabalhoTab />}
+   924→            </motion.div>
+   925→          </AnimatePresence>
+   926→        </Tabs>
+   927→      </main>
+   928→
+   929→    </div>
+   930→  );
+   931→}
+   932→

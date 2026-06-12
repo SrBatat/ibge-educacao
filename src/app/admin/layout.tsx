@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -11,6 +11,7 @@ import {
   HelpCircle,
   FileText,
   LogOut,
+  ShieldAlert,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -25,7 +26,21 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { profile, signOut } = useAuth();
+  const { profile, loading, isAdmin, signOut } = useAuth();
+
+  // Admin guard: redirect non-admins to /forbidden
+  useEffect(() => {
+    if (!loading && profile && !isAdmin()) {
+      router.replace('/forbidden');
+    }
+  }, [loading, profile, isAdmin, router]);
+
+  // Also redirect if not logged in
+  useEffect(() => {
+    if (!loading && !profile) {
+      router.replace('/login');
+    }
+  }, [loading, profile, router]);
 
   const handleLogout = async () => {
     await signOut();
@@ -36,6 +51,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (href === '/admin') return pathname === '/admin';
     return pathname.startsWith(href);
   };
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-muted-foreground text-sm">Verificando permissões...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If not admin, show forbidden screen while redirecting
+  if (!profile || !isAdmin()) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <ShieldAlert className="w-16 h-16 text-primary mx-auto" />
+          <h2 className="text-2xl font-display-gothic text-foreground">Acesso Restrito</h2>
+          <p className="text-muted-foreground">Apenas administradores podem acessar esta área.</p>
+          <Link href="/">
+            <button className="text-primary hover:underline text-sm">Voltar ao Dashboard</button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-background">
@@ -51,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
             </span>
             <span className="text-xs text-muted-foreground truncate">
-              {profile?.username || 'Carregando...'}
+              {profile.username}
             </span>
           </div>
         </div>

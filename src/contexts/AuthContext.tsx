@@ -69,8 +69,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     setError(null);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) { setError(error.message); return { error: error.message }; }
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    if (authError) { setError(authError.message); return { error: authError.message }; }
+
+    // Check if user is banned
+    if (authData.user) {
+      const { data: userProfile } = await supabase
+        .from('tb_users')
+        .select('is_banned')
+        .eq('auth_id', authData.user.id)
+        .single();
+
+      if (userProfile?.is_banned) {
+        await supabase.auth.signOut();
+        const msg = 'Esta conta foi banida. Entre em contato com um administrador.';
+        setError(msg);
+        return { error: msg };
+      }
+    }
+
     return { error: null };
   };
 
