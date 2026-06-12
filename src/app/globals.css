@@ -124,9 +124,25 @@
 /* === IBGE GOTHIC — Custom Design Tokens === */
 :root {
   --font-display: var(--font-cinzel), 'Cormorant Garamond', Georgia, serif;
+  --font-jetbrains: var(--font-jetbrains-mono), 'Fira Code', monospace;
+  --color-gothic-950: #0a0a0c;
+  --color-gothic-900: #121216;
+  --color-gothic-800: #1a1a22;
+  --color-gothic-700: #2a2a35;
+  --color-gothic-600: #3a3a48;
+  --color-gothic-500: #52526a;
+  --color-crimson-900: #450a0a;
+  --color-crimson-700: #7f1d1d;
+  --color-crimson-500: #b91c1c;
+  --color-crimson-300: #ef4444;
+  --color-crimson-100: #fee2e2;
+  --color-imperial-900: #2e1065;
+  --color-imperial-700: #581c87;
+  --color-imperial-500: #7c3aed;
+  --color-imperial-300: #a78bfa;
 }
 
-/* Gothic Shadows */
+/* Gothic Shadows (CSS classes — coexist with Tailwind boxShadow tokens) */
 .shadow-gothic-card {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
 }
@@ -140,7 +156,7 @@
   box-shadow: 0 0 32px rgba(88, 28, 135, 0.4);
 }
 
-/* Gothic Animations */
+/* Gothic Animations (CSS keyframes — coexist with Tailwind animation tokens) */
 @keyframes pulseCrimson {
   0%, 100% { box-shadow: 0 0 0 0 rgba(127, 29, 29, 0); }
   50% { box-shadow: 0 0 0 8px rgba(127, 29, 29, 0.3); }
@@ -157,6 +173,22 @@
   0% { opacity: 0; transform: scale(0.9); }
   100% { opacity: 1; transform: scale(1); }
 }
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes slideInRight {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes progressFill {
+  0% { width: 0%; }
+  100% { width: var(--progress-width); }
+}
+@keyframes numberCount {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 .animate-pulse-crimson {
   animation: pulseCrimson 2s ease-in-out infinite;
@@ -170,8 +202,23 @@
 .animate-scale-in {
   animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.animate-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.animate-progress-fill {
+  animation: progressFill 1s ease-out forwards;
+}
+.animate-number-count {
+  animation: numberCount 1.5s ease-out forwards;
+}
 
-/* Font Display Helper */
+/* Font Display Helpers */
 .font-display-gothic {
   font-family: var(--font-display);
+}
+.font-mono-gothic {
+  font-family: var(--font-jetbrains);
 }

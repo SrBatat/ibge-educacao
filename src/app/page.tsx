@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen, GraduationCap, Users, TrendingUp, MapPin, Bus,
   ChevronDown, Info, BarChart3, PieChart, Activity, Globe,
-  ArrowUpRight, ArrowDownRight, Minus, Search, Filter, LogOut
+  ArrowUpRight, ArrowDownRight, Minus, Search, Filter
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -22,7 +20,8 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { useAuth } from '@/contexts/AuthContext';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import {
   frequenciaEscolar, situacaoOcupacao, localTrabalho, meioTransporte,
   regioes, estadosPorRegiao, ageGroups, ageGroupKeys, transportLabels, transportKeys,
@@ -68,23 +67,67 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   );
 }
 
+// --- useCountUp Hook ---
+function useCountUp(end: number, duration = 1500) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const hasAnimated = useRef(false);
+
+  const animate = useCallback(() => {
+    if (!ref.current || hasAnimated.current) return;
+    hasAnimated.current = true;
+    const start = 0;
+    const startTime = performance.now();
+
+    const step = (currentTime: number) => {
+      if (!ref.current) return;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = start + (end - start) * eased;
+      ref.current.textContent = current.toFixed(current % 1 === 0 && end % 1 === 0 ? 0 : 1);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }, [end, duration]);
+
+  useEffect(() => {
+    animate();
+  }, [animate]);
+
+  return ref;
+}
+
 // --- KPI Card Component ---
 function KPICard({ title, value, subtitle, icon: Icon, trend, color = COLORS.crimson }: {
   title: string; value: string; subtitle: string; icon: React.ElementType;
   trend?: 'up' | 'down' | 'neutral'; color?: string;
 }) {
+  // Parse the numeric part from the value string
+  const numericMatch = value.match(/[\d]+[,.]?[\d]*/);
+  const numericValue = numericMatch ? parseFloat(numericMatch[0].replace(',', '.')) : 0;
+  const prefix = numericMatch ? value.substring(0, value.indexOf(numericMatch[0])) : '';
+  const suffix = numericMatch ? value.substring(value.indexOf(numericMatch[0]) + numericMatch[0].length) : value;
+  const countRef = useCountUp(numericValue);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      whileHover={{ y: -2 }}
     >
-      <Card className="bg-zinc-950 border-zinc-800 hover:border-zinc-700 transition-all duration-300 group">
+      <Card className="bg-zinc-950 border-zinc-800 hover:border-zinc-700 hover:shadow-gothic-card-hover transition-all duration-300 group">
         <CardContent className="p-5">
           <div className="flex items-start justify-between">
             <div className="space-y-2">
               <p className="text-xs text-zinc-500 uppercase tracking-wider font-medium">{title}</p>
-              <p className="text-3xl font-bold text-white tracking-tight">{value}</p>
+              <p className="text-3xl font-bold text-white tracking-tight">
+                {prefix}<span ref={countRef}>0</span>{suffix}
+              </p>
               <div className="flex items-center gap-1.5">
                 {trend === 'up' && <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />}
                 {trend === 'down' && <ArrowDownRight className="w-3.5 h-3.5 text-red-400" />}
@@ -878,66 +921,11 @@ function LocalTrabalhoTab() {
 // --- Main Page ---
 export default function Home() {
   const [activeTab, setActiveTab] = useState('educacao');
-  const { profile, signOut, isAdmin } = useAuth();
-  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-red-700 to-red-900 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xs">IBGE</span>
-              </div>
-              <div>
-                <h1 className="text-sm font-semibold text-white tracking-wide font-display-gothic">Portal IBGE</h1>
-                <p className="text-[10px] text-zinc-500 -mt-0.5">Dados do Censo 2022 — Educação & Sociedade</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {profile ? (
-                <>
-                  <Badge variant="outline" className="text-[10px] border-zinc-700 text-zinc-300 gap-1">
-                    {profile.username}
-                  </Badge>
-                  <Link href="/quiz">
-                    <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white text-xs h-7 px-2">
-                      Quiz
-                    </Button>
-                  </Link>
-                  {isAdmin() && (
-                    <Link href="/admin">
-                      <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white text-xs h-7 px-2">
-                        Admin
-                      </Button>
-                    </Link>
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-zinc-400 hover:text-red-400 text-xs h-7 px-2 gap-1"
-                    onClick={async () => {
-                      await signOut();
-                      router.push('/login');
-                    }}
-                  >
-                    <LogOut className="w-3 h-3" />
-                    Sair
-                  </Button>
-                </>
-              ) : (
-                <Link href="/login">
-                  <Button variant="outline" size="sm" className="text-zinc-400 hover:text-white text-xs h-7 border-zinc-700">
-                    Entrar
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero Banner */}
       <div className="relative overflow-hidden">
@@ -1014,26 +1002,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800 bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-gradient-to-br from-red-700 to-red-900 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-[8px]">IBGE</span>
-              </div>
-              <span className="text-xs text-zinc-500">
-                Dados extraídos do SIDRA/IBGE — Censo Demográfico 2022
-              </span>
-            </div>
-            <div className="flex items-center gap-4 text-[10px] text-zinc-600">
-              <span>Tabela 10056 — Frequência Escolar</span>
-              <span>Tabela 10253 — Ocupação</span>
-              <span>Tabela 10329 — Local de Trabalho</span>
-              <span>Tabela 8424 — Transporte</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
